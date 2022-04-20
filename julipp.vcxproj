@@ -116,6 +116,9 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <EnableModules>true</EnableModules>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -130,6 +133,9 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <EnableModules>true</EnableModules>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -139,11 +145,49 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="interpreter\Environment.cpp" />
+    <ClCompile Include="interpreter\Interpreter.cpp" />
+    <ClCompile Include="interpreter\LoxFunction.cpp" />
+    <ClCompile Include="interpreter\LoxType.cpp" />
     <ClCompile Include="julipp.cpp" />
+    <ClCompile Include="parser\Parser.cpp" />
+    <ClCompile Include="scanner\LitVal.cpp" />
+    <ClCompile Include="scanner\Scanner.cpp" />
+    <ClCompile Include="scanner\Token.cpp" />
+    <ClCompile Include="tests\testRPN.cpp" />
+    <ClCompile Include="tests\testStrComp.cpp" />
+    <ClCompile Include="tests\testTernary.cpp" />
+    <ClCompile Include="tools\AstPrinter.cpp" />
+    <ClCompile Include="tools\generator.cpp" />
+    <ClCompile Include="tools\helpers.cpp" />
+    <ClCompile Include="tools\LoxError.cpp" />
+    <ClCompile Include="tools\RPNPrinter.cpp" />
+    <ClCompile Include="tools\tools.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include.h" />
+    <ClInclude Include="interpreter\ClockFunction.hpp" />
+    <ClInclude Include="interpreter\Environment.h" />
+    <ClInclude Include="interpreter\Interpreter.h" />
+    <ClInclude Include="interpreter\LoxCallable.h" />
+    <ClInclude Include="interpreter\LoxFunction.h" />
+    <ClInclude Include="interpreter\LoxType.h" />
     <ClInclude Include="julipp.h" />
+    <ClInclude Include="parser\Expr.hpp" />
+    <ClInclude Include="parser\Parser.h" />
+    <ClInclude Include="parser\Stmt.hpp" />
+    <ClInclude Include="scanner\LitVal.h" />
+    <ClInclude Include="scanner\Scanner.h" />
+    <ClInclude Include="scanner\Token.h" />
+    <ClInclude Include="tests\testRPN.h" />
+    <ClInclude Include="tests\testStrComp.h" />
+    <ClInclude Include="tests\testTernary.h" />
+    <ClInclude Include="tools\AstPrinter.h" />
+    <ClInclude Include="tools\generator.h" />
+    <ClInclude Include="tools\helpers.h" />
+    <ClInclude Include="tools\LoxError.h" />
+    <ClInclude Include="tools\RPNPrinter.h" />
+    <ClInclude Include="tools\tools.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

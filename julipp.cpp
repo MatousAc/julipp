@@ -1,5 +1,3 @@
-// #include <sys/types.h> 
-// #include <sys/stat.h> 
 #include "julipp.h"
 #include "tools/tools.h"
 #include "tools/LoxError.h"
