@@ -1,0 +1,57 @@
+var sir = "sire";
+switch sir {
+	case "sir": print "was sir >> " + sir;
+	case "sire": {
+		print "was sire >> " + sir;
+		sir = "hungry Johans";
+	}
+	default: print "default here";
+}
+
+print "final value of 'sir' = " + sir;
+
+var num = 7;
+var val = 20;
+switch (num) {
+	case 0: print "zero = " + num;
+	case 5: print "five = " + num;
+	case 7: {
+		print "seven = " + num;
+		num = 4;
+		var str = "hay";
+		switch str {
+			case "hey": print "it was hey"; 
+			case "else": {
+				print "it was else";
+				exit;
+			}
+		} // no default
+	}
+	case 4: print "four = " + num;
+	case 6:
+		switch val {
+			case 100: print "it was 100"; 
+			case 20: print "it was 20";
+		}
+	default: {
+		print num;
+		print "looks like it was some other number!";
+		exit;
+	}
+}
+
+print num;
+
+for (var i = 0; i < 7; i = i + 1) {
+	switch i {
+		case 0: print "0 >> " + i;
+		case 1: print "1 >> " + i;
+		case 2: print "2 >> " + i;
+		case 3: {
+			print "3 >> " + i;
+			i = 4;
+		}
+		default: print "i is " + i;
+	}
+}
+print "final value of 'i' = " + i;

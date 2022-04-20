@@ -1,0 +1,10 @@
+var friend = "alec";
+print friend;
+print (friend + " ") * 2;
+var num = 17;
+var friends;
+var brett = "brett";
+friends = friend + " anaya " + brett;
+num = num + 1;
+print friends;
+print num;

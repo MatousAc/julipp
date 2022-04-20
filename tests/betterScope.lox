@@ -1,0 +1,31 @@
+// more torough czeching for 
+// inner scope assignment
+var val = 0;
+print val + ": nest 0";
+{
+  print val + ": nest 1";
+  val = 1;
+  print val + ": nest 1";
+}
+
+print val + ": nest 0";
+
+{
+  print val + ": nest 1";
+  val = 1;
+  print val + ": nest 1";
+  {
+    print val + ": nest 2";
+    val = 2;
+    print val + ": nest 2";
+    {
+      print val + ": nest 3";
+      val = 3;
+      print val + ": nest 3";
+    }
+    print val + ": nest 2";
+  }
+  print val + ": nest 1";
+}
+
+print val + ": nest 0";

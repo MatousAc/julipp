@@ -1,0 +1,24 @@
+var value;
+var num = 3;
+var bool = 3 == num;
+
+if (bool)
+	value = "it was true!";
+else value = "it was false!";
+
+print value;
+
+if (value == "it was false!")
+	print "now it's true!";
+
+print value;
+
+var hay = 2;
+print "declaring var hay as " + hay;
+if (hay * hay == hay + hay)
+	print "hay * hay == hay + hay";
+else print "hay * hay != hay + hay";
+
+if (hay * 3 == hay + hay)
+	print "hay * 3 == hay + hay";
+else print "hay * 3 != hay + hay";

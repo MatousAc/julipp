@@ -1,0 +1,22 @@
+var T = true;
+var F = false;
+
+if (T or F)
+	print "T or F is true";
+
+print F and F;
+print T or T;
+print T and F;
+print F or T;
+
+var mut = "original";
+print mut;
+T or (mut = "new");
+print mut;
+F and (mut = "newer");
+print mut;
+F and (mut = "newer");
+print mut;
+T and (mut = "newest");
+print mut;
+

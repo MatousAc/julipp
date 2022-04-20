@@ -1,0 +1,7 @@
+var pow = 0;
+print pow;
+for(var res = 1; res < 200000; res = res + res) {
+	if (pow < 10) print "2^ " + pow + " = " + res;
+	else print "2^" + pow + " = " + res;
+	pow = pow + 1;
+}

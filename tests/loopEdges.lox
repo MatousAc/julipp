@@ -1,0 +1,4 @@
+for (var zero = 0; zero != 0;)
+	print "no output is good output"/"(so this is bad)";
+
+while(zero > 0) print "never executed";

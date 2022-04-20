@@ -1,0 +1,44 @@
+// something more complex
+var i = 10;
+for (var j = 0; j < 4; j = j + 1) {
+	print "j is " + j;
+	if (j == 0) continue;
+	while (i != 6) {
+		print "i is " + i;
+		if (i == 9) {
+			i = i - 1;
+			continue;
+		}
+		if (i == 8 and j > 1) break;
+		i = i - 1;
+		print "hi";
+	}
+	i = 10;
+	if (j == 3) break;
+	print "end";
+}
+
+// expected output:
+// j is 0
+// j is 1
+// i is 10
+// hi
+// i is 9
+// i is 8
+// hi
+// i is 7
+// hi
+// end
+// j is 2
+// i is 10
+// hi
+// i is 9
+// i is 8
+// end
+// j is 3
+// i is 10
+// hi
+// i is 9
+// i is 8
+
+// yaaaaas!!! it worked!!!

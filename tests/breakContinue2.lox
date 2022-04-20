@@ -1,0 +1,26 @@
+print "start";
+for (var i = 0; i < 12; i = i + 1) {
+	if (i > 4 and i < 8) continue;
+	print i;
+}
+
+while (true) {
+	print i;
+	if (i < 0) break;
+	i = i - 1;
+}
+
+// above works well
+// below throws syntax errors
+print "finish";
+
+break; // syntax error
+var j = "anything";
+
+{
+	continue; // syntax error
+	break; // syntax error
+}
+j = j + 1;
+
+continue; // syntax error
