@@ -1,4 +1,4 @@
-// this file provides basic functionality 
+// this file provides basic functionality
 // and types to any file that includes it
 #pragma once
 #include <stdio.h>
