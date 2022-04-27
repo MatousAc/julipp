@@ -58,8 +58,6 @@ string LoxType::type() const {
 	return res;
 }
 
-
-
 string LoxType::toString() const {
 	string res;
 	if (isnil())

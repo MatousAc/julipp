@@ -1,65 +1,65 @@
-## What I will Implement
+## What I Have Implemented
 ***
 I feel pretty confident in being able to implement things through chapter 9. What this specifically entails is:
 #### Expression Level
-* basic unary operators such as - and !
-* basic binary arithmetic operations
-  * \+ \- \* / \ % ^
-  * add, subtract, multiply, divide, inverse divide, modulus, exponentiate
-  * modulus if values can be considered integers is like regulas c modulus0
-  * modulus on numbers that are not wholes: subtracts right operand from left operand until the left operand is less than the right operand. only works with numbers
-* logic operations **||** and **&&**
-* implied *multiplication* such as $y = 3x + b$
-* variables
-  * *identifiers* can begin with "a-z", "A-Z", or ascii symbols such as "_" if that character is not otherwise used by the language (we're not using "#^-+=!@~" and such)
-  * I won't allow access to purely underscore variables
-  * local variables can be declared using the **local** keyword or without it
-  * variables can also be declared in the global scope using **global** anywhere a variable could regularly be declared
-  * implicit variable declaration supported
-  * *scoping*: I plan to provide functionality of a global scope (with the lexical scoping that Julia is supposed to have) and soft local scopes
-* keywords: below is a list of julia's keywords. to keep in the spirit of the language, all of the keywords will be scanned, but while parsing, any keyword that is not supported will be reported as an error.
-  * **supported**: continue do else elseif end false for global if local true while
-  * **not supported**: baremodule begin break catch export finally try using import let macro module quote struct
-* function calling
-  * I plan to support passing parameters and calling on identifiers that are pre-defined by the language
-  * this includes **println()** or **round()** or other functions I have specified to support
+[x] basic unary operators such as - and !
+[x] basic binary arithmetic operations
+  [x] \+ \- \* / \ % ^
+  [x] add, subtract, multiply, divide, inverse divide, modulus, exponentiate
+  [x] modulus if values can be considered integers is like regulas c modulus0
+  [x] modulus on numbers that are not wholes: subtracts right operand from left operand until the left operand is less than the right operand. only works with numbers
+[ ] logic operations **||** and **&&**
+[ ] implied *multiplication* such as $y = 3x + b$
+[ ] variables
+  [ ] *identifiers* can begin with "a-z", "A-Z", or ascii symbols such as "_" if that character is not otherwise used by the language (we're not using "#^-+=!@~" and such)
+  [ ] I won't allow access to purely underscore variables
+  [ ] local variables can be declared using the **local** keyword or without it
+  [ ] variables can also be declared in the global scope using **global** anywhere a variable could regularly be declared
+  [ ] implicit variable declaration supported
+  [ ] *scoping*: I plan to provide functionality of a global scope (with the lexical scoping that Julia is supposed to have) and soft local scopes
+[ ] keywords: below is a list of julia's keywords. to keep in the spirit of the language, all of the keywords will be scanned, but while parsing, any keyword that is not supported will be reported as an error.
+  [ ] **supported**: continue do else elseif end false for global if local true while
+  [ ] **not supported**: baremodule begin break catch export finally try using import let macro module quote struct
+[ ] function calling
+  [ ] I plan to support passing parameters and calling on identifiers that are pre-defined by the language
+  [ ] this includes **println()** or **round()** or other functions I have specified to support
 
 #### Statement Level
-* ending
-  * \n will matter. newlines can end statements
-  * semicolons can end a statement too
-    * indentation does not matter
-* control flow: **if**
-  * I will support julia's if-else statements
-  * I also plan to support the intermediate *elseif* statement(s)
-  * conditions should not require parentheses around them
-* loops
-  * I plan to support while loops
-  * while loops should have correct local soft scoping
-  * you should be able to use continue;
-  * you should be able to use break;
-* I will support assignment
+[ ] ending
+  [ ] \n will matter. newlines can end statements
+  [ ] semicolons can end a statement too
+    [ ] indentation does not matter
+[ ] control flow: **if**
+  [ ] I will support julia's if-else statements
+  [ ] I also plan to support the intermediate *elseif* statement(s)
+  [ ] conditions should not require parentheses around them
+[ ] loops
+  [ ] I plan to support while loops
+  [ ] while loops should have correct local soft scoping
+  [ ] you should be able to use break;
+  [ ] you should be able to use continue;
+[ ] I will support assignment
  
 
 #### Strings
-* string escape characters
-* string length built-in function
-* string concatenation done with *
-* multi-line strings with """
-* string comparison with ==, !=, <, > etc.
+[ ] string escape characters
+[ ] string length built-in function
+[ ] string concatenation done with *
+[ ] multi-line strings with """
+[ ] string comparison with ==, !=, <, > etc.
 
 #### Functions
 \# as built-in functions:
-* print(...) # prints it's input as a string to the console
-* println(...) # println gives a new line after it prints
-* readline() # this is meant to be CLI input. it takes a line of user input and returns it as a string (including the newline)  
+[ ] print(...) # prints it's input as a string to the console
+[ ] println(...) # println gives a new line after it prints
+[ ] readline() # this is meant to be CLI input. it takes a line of user input and returns it as a string (including the newline)  
 
 \# we aren't focusing on built-in math functions, but I'd like to implement these:
-* round(number) # rounds the number to an integer (but is still of type double internally)
-* floor(number) # basically truncates a double 
-* ceil(number) # rounds up
-* abs(number) # returns the absolute value of the number that's passed in
-* sqrt(number) # returns the square root of the number that's passed in
+[ ] round(number) # rounds the number to an integer (but is still of type double internally)
+[ ] floor(number) # basically truncates a double 
+[ ] ceil(number) # rounds up
+[ ] abs(number) # returns the absolute value of the number that's passed in
+[ ] sqrt(number) # returns the square root of the number that's passed in
 
 
 ### Specifically Excluding
@@ -83,15 +83,15 @@ I feel pretty confident in being able to implement things through chapter 9. Wha
 * integer division
 
 #### Stretch Goals
-* Julia has bitwise logical operators such as &, |, and ~. I'd like to try to implement these.
-* relevant updating operators (+=, -=, *=, etc.)
-* *symbols*: I'd at least like to be able to treat the ':' symbol operator as an easy way to make a single-word string in the code. so *println(:Ac)* would output *Ac*. This point is not a promise.
-* keywords: const function return 
-* in julia, you can write statements to execute right after the condition of an **if** or **elseif** without any delimiter. I will put this functionality as a stretch goal cause I'm really not sure how to do it.
-* user-defined functions. if I do provide these, it will likely be only the basic function declaration format. no anonymous or single-expression functions.
-* string indexing[1:4] or [end]
-* string access starts @ index 1
-* const variables
+[ ] Julia has bitwise logical operators such as &, |, and ~. I'd like to try to implement these.
+[ ] relevant updating operators (+=, -=, *=, etc.)
+[ ] *symbols*: I'd at least like to be able to treat the ':' symbol operator as an easy way to make a single-word string in the code. so *println(:Ac)* would output *Ac*. This point is not a promise.
+[ ] keywords: const function return 
+[ ] in julia, you can write statements to execute right after the condition of an **if** or **elseif** without any delimiter. I will put this functionality as a stretch goal cause I'm really not sure how to do it.
+[ ] user-defined functions. if I do provide these, it will likely be only the basic function declaration format. no anonymous or single-expression functions.
+[ ] string indexing[1:4] or [end]
+[ ] string access starts @ index 1
+[ ] const variables
 
 ### My Resources for This Project
 * official docs: https://docs.julialang.org/en/v1/

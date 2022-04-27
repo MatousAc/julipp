@@ -10,7 +10,6 @@ Scanner::Scanner(string source)
 	tokens{ vector<Token>() },
 	start{ 0 }, current{ 0 }, line{ 1 } {
 	// initilize keywords
-	keywords["and"] = AND;
 	keywords["break"] = BREAK;
 	keywords["case"] = CASE;
 	keywords["continue"] = CONTINUE;
@@ -23,7 +22,6 @@ Scanner::Scanner(string source)
 	keywords["for"] = FOR;
 	keywords["if"] = IF;
 	keywords["nil"] = NIL;
-	keywords["or"] = OR;
 	keywords["print"] = PRINT;
 	keywords["return"] = RETURN;
 	keywords["super"] = SUPER;
@@ -45,7 +43,7 @@ vector<Token> Scanner::scanTokens() {
 
 void Scanner::scanToken() {
 	char c = next();
-	switch (c) {
+	switch (c) { // single character tokens
 	case '(': addToken(LEFT_PAREN); break;
 	case ')': addToken(RIGHT_PAREN); break;
 	case '{': addToken(LEFT_BRACE); break;
@@ -61,7 +59,7 @@ void Scanner::scanToken() {
 	case '*': addToken(STAR); break;
 	case '^': addToken(CARET); break;
 	case '%': addToken(MODULUS); break;
-	case '!':
+	case '!': // two-character tokens
 		addToken(nextChar('=') ? BANG_EQUAL : BANG);
 		break;
 	case '=':
@@ -77,6 +75,14 @@ void Scanner::scanToken() {
 		if (nextChar('/'))
 			while (peek() != '\n' && !isDone()) next();
 		else addToken(FSLASH);
+		break;
+	case '|':
+		if (nextChar('|')) addToken(OR);
+		else err->report(line, "Unsupported operator.", to_string(c));
+		break;
+	case '&':
+		if (nextChar('&')) addToken(AND);
+		else err->report(line, "Unsupported operator.", to_string(c));
 		break;
 	case ' ':
 	case '\r':
