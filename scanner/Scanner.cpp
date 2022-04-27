@@ -8,6 +8,7 @@ std::unordered_map<string, TokenType> Scanner::keywords;
 Scanner::Scanner(string source)
 	: source{ source },
 	tokens{ vector<Token>() },
+	afterNum{ false }, afterParen{ false },
 	start{ 0 }, current{ 0 }, line{ 1 } {
 	// initilize keywords
 	keywords["break"] = BREAK;
@@ -44,8 +45,6 @@ vector<Token> Scanner::scanTokens() {
 void Scanner::scanToken() {
 	char c = next();
 	switch (c) { // single character tokens
-	case '(': addToken(LEFT_PAREN); break;
-	case ')': addToken(RIGHT_PAREN); break;
 	case '{': addToken(LEFT_BRACE); break;
 	case '}': addToken(RIGHT_BRACE); break;
 	case ',': addToken(COMMA); break;
@@ -94,12 +93,20 @@ void Scanner::scanToken() {
 	case '"':
 		addString();
 		break;
+	case '(':
+		if (afterParen) addImpliedMultiply();
+		addToken(LEFT_PAREN);
+		break;
+	case ')': addToken(RIGHT_PAREN);
+		scanAfterParen();
+		break;
 	default:
 		if (isdigit(c)) {
 			addNumber();
+			scanAfterNum(); // triggers another mode
 		} else if (isalpha(c)) {
 			addIdentifier();
-			// consume Nulls that some text editors add
+		// consume Nulls that some text editors add
 		} else if (c != 0) { // otherwise err
 			err->report(line, "Unexpected character.", to_string(c));
 		}
@@ -152,7 +159,9 @@ void Scanner::addNumber() {
 		while (isdigit(peek())) next();
 	}
 	double num = atof(source.substr(start, (current - start)).c_str());
+	if (afterParen) addImpliedMultiply();
 	addToken(NUMBER, num);
+	if (peek() == '(') addImpliedMultiply();
 }
 
 void Scanner::addIdentifier() {
@@ -160,6 +169,7 @@ void Scanner::addIdentifier() {
 	string id = source.substr(start, (current - start));
 	if (keywords.find(id) == keywords.end()) {
 		// not keyword >> must be identifier
+		if (afterNum || afterParen) addImpliedMultiply();
 		addToken(IDENTIFIER);
 		return;
 	} // keyword
@@ -169,4 +179,30 @@ void Scanner::addIdentifier() {
 void Scanner::addToken(TokenType type, LitVal lit) {
 	string lexeme = source.substr(start, (current - start));
 	tokens.push_back(Token(type, lexeme, lit, line));
+}
+
+void Scanner::scanAfterNum() {
+	if (!isDone()) {
+		start = current;
+		afterNum = true;
+		scanToken();
+		afterNum = false;
+	}
+}
+
+void Scanner::scanAfterParen() {
+	if (!isDone()) {
+		start = current;
+		afterParen = true;
+		scanToken();
+		afterParen = false;
+	}
+}
+
+void Scanner::addImpliedMultiply() {
+	tokens.push_back(Token(
+		IMPLIED_MULTIPLY, // type
+		tokens[tokens.size() - 1].lexeme, // prev
+		NULL, line // curr line
+	));
 }

@@ -6,6 +6,7 @@
 
 class Scanner {
 	string source;
+	bool afterNum, afterParen;
 	int start, current, line;
 
 	void scanToken();
@@ -14,9 +15,14 @@ class Scanner {
 	char peek();
 	char peekNext();
 	bool nextChar(char c);
-	void addString();
-	void addNumber();
-	void addIdentifier();
+	void addString(); // scans string literal
+	void addNumber(); // scans a number literal
+	void addIdentifier(); // adds id
+	// just scans the next token in a mode
+	// that allows for implied multiplication
+	void scanAfterNum();
+	void scanAfterParen();
+	void addImpliedMultiply();
 	void addToken(TokenType type, LitVal lit = NULL);
 public:
 	Scanner(string source);

@@ -44,6 +44,7 @@ private:
 	Expr* comparison();	// <= >+ < >
 	Expr* term();		// +-
 	Expr* factor();		// */\% 
+	Expr* implyMult();	// 3x => 3 * x
 	Expr* power();		// ^
 	Expr* unary();		// !-
 	Expr* call();		// ()

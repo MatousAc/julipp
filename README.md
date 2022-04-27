@@ -5,11 +5,23 @@ I feel pretty confident in being able to implement things through chapter 9. Wha
 [x] basic unary operators such as - and !
 [x] basic binary arithmetic operations
   [x] \+ \- \* / \ % ^
-  [x] add, subtract, multiply, divide, inverse divide, modulus, exponentiate
+  * add, subtract, multiply, divide, inverse divide, modulus, exponentiate
   [x] modulus if values can be considered integers is like regulas c modulus0
   [x] modulus on numbers that are not wholes: subtracts right operand from left operand until the left operand is less than the right operand. only works with numbers
-[ ] logic operations **||** and **&&**
+[x] logic operations **||** and **&&** - short circuiting
 [ ] implied *multiplication* such as $y = 3x + b$
+    * I allow for general implied multiplication. when Julia throws errors that you cannot "call" a float, I would instead treat it as multiplication.
+    * Example of things that work:
+        * 3y
+        * 2/(4)(3)  # 0.16
+        * 2/((4)(3))# 0.16
+        * (2/(4))(3)# julia throws error here due to the Float type, I just multiply since I'm not doing types. this is a Feature I left in the design : D
+        * (y)2;     # i also choose to allow this
+        * (y)2x     # and this
+    * Follow Julia's example however when I disallow:
+        * y(3) # cannot call this (in both implementations)
+        * y3 # well, this is just a variable, guys
+        * 3 y # no spaces!
 [ ] variables
   [ ] *identifiers* can begin with "a-z", "A-Z", or ascii symbols such as "_" if that character is not otherwise used by the language (we're not using "#^-+=!@~" and such)
   [ ] I won't allow access to purely underscore variables
