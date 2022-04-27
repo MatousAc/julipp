@@ -101,7 +101,7 @@ void Scanner::scanToken() {
 	default:
 		if (isdigit(c)) {
 			addNumber();
-		} else if (isalpha(c)) {
+		} else if (isalpha(c) || c == '_') {
 			addIdentifier();
 		// consume Nulls that some text editors add
 		} else if (c != 0) { // otherwise err
@@ -163,7 +163,7 @@ void Scanner::addNumber(bool inFractional) {
 }
 
 void Scanner::addIdentifier() {
-	while (isalnum(peek())) next();
+	while (isalnum(peek()) || peek() == '_') next();
 	string id = source.substr(start, (current - start));
 	if (keywords.find(id) == keywords.end()) {
 		// not keyword >> must be identifier
