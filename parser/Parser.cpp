@@ -317,9 +317,34 @@ Expr* Parser::term() {
 }
 
 Expr* Parser::factor() {
+	Expr* expression = implyMult();
+
+	while (match(vector<TokenType>{ FSLASH, BSLASH, STAR, MODULUS })) {
+		Token op = previous();
+		Expr* right = implyMult();
+		expression = new Binary(expression, op, right);
+	}
+	return expression;
+}
+
+Expr* Parser::implyMult() {
+	Expr* expression = power();
+
+	while (match(vector<TokenType>{ IMPLIED_MULTIPLY })) {
+		Token op = previous();
+		// at this point, we just treat this as basic multiplication 
+		// now that we're @ the right precedence level : D
+		op.type = STAR;
+		Expr* right = power(); // this is a grouping/number/identifier
+		expression = new Binary(expression, op, right);
+	}
+	return expression;
+}
+
+Expr* Parser::power() {
 	Expr* expression = unary();
 
-	while (match(vector<TokenType>{ SLASH, STAR })) {
+	while (match(vector<TokenType>{ CARET })) {
 		Token op = previous();
 		Expr* right = unary();
 		expression = new Binary(expression, op, right);

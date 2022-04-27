@@ -8,9 +8,9 @@ std::unordered_map<string, TokenType> Scanner::keywords;
 Scanner::Scanner(string source)
 	: source{ source },
 	tokens{ vector<Token>() },
+	afterNum{ false }, afterParen{ false },
 	start{ 0 }, current{ 0 }, line{ 1 } {
 	// initilize keywords
-	keywords["and"] = AND;
 	keywords["break"] = BREAK;
 	keywords["case"] = CASE;
 	keywords["continue"] = CONTINUE;
@@ -23,7 +23,6 @@ Scanner::Scanner(string source)
 	keywords["for"] = FOR;
 	keywords["if"] = IF;
 	keywords["nil"] = NIL;
-	keywords["or"] = OR;
 	keywords["print"] = PRINT;
 	keywords["return"] = RETURN;
 	keywords["super"] = SUPER;
@@ -45,20 +44,21 @@ vector<Token> Scanner::scanTokens() {
 
 void Scanner::scanToken() {
 	char c = next();
-	switch (c) {
-	case '(': addToken(LEFT_PAREN); break;
-	case ')': addToken(RIGHT_PAREN); break;
+	switch (c) { // single character tokens
 	case '{': addToken(LEFT_BRACE); break;
 	case '}': addToken(RIGHT_BRACE); break;
 	case ',': addToken(COMMA); break;
 	case '.': addToken(DOT); break;
-	case '-': addToken(MINUS); break;
-	case '+': addToken(PLUS); break;
 	case ';': addToken(SEMICOLON); break;
-	case '*': addToken(STAR); break;
 	case '?': addToken(QUEST); break;
 	case ':': addToken(COLON); break;
-	case '!':
+	case '-': addToken(MINUS); break;
+	case '+': addToken(PLUS); break;
+	case '\\':addToken(BSLASH); break;
+	case '*': addToken(STAR); break;
+	case '^': addToken(CARET); break;
+	case '%': addToken(MODULUS); break;
+	case '!': // two-character tokens
 		addToken(nextChar('=') ? BANG_EQUAL : BANG);
 		break;
 	case '=':
@@ -73,7 +73,15 @@ void Scanner::scanToken() {
 	case '/':
 		if (nextChar('/'))
 			while (peek() != '\n' && !isDone()) next();
-		else addToken(SLASH);
+		else addToken(FSLASH);
+		break;
+	case '|':
+		if (nextChar('|')) addToken(OR);
+		else err->report(line, "Unsupported operator.", to_string(c));
+		break;
+	case '&':
+		if (nextChar('&')) addToken(AND);
+		else err->report(line, "Unsupported operator.", to_string(c));
 		break;
 	case ' ':
 	case '\r':
@@ -85,12 +93,20 @@ void Scanner::scanToken() {
 	case '"':
 		addString();
 		break;
+	case '(':
+		if (afterParen) addImpliedMultiply();
+		addToken(LEFT_PAREN);
+		break;
+	case ')': addToken(RIGHT_PAREN);
+		scanAfterParen();
+		break;
 	default:
 		if (isdigit(c)) {
 			addNumber();
+			scanAfterNum(); // triggers another mode
 		} else if (isalpha(c)) {
 			addIdentifier();
-			// consume Nulls that some text editors add
+		// consume Nulls that some text editors add
 		} else if (c != 0) { // otherwise err
 			err->report(line, "Unexpected character.", to_string(c));
 		}
@@ -143,7 +159,9 @@ void Scanner::addNumber() {
 		while (isdigit(peek())) next();
 	}
 	double num = atof(source.substr(start, (current - start)).c_str());
+	if (afterParen) addImpliedMultiply();
 	addToken(NUMBER, num);
+	if (peek() == '(') addImpliedMultiply();
 }
 
 void Scanner::addIdentifier() {
@@ -151,6 +169,7 @@ void Scanner::addIdentifier() {
 	string id = source.substr(start, (current - start));
 	if (keywords.find(id) == keywords.end()) {
 		// not keyword >> must be identifier
+		if (afterNum || afterParen) addImpliedMultiply();
 		addToken(IDENTIFIER);
 		return;
 	} // keyword
@@ -160,4 +179,30 @@ void Scanner::addIdentifier() {
 void Scanner::addToken(TokenType type, LitVal lit) {
 	string lexeme = source.substr(start, (current - start));
 	tokens.push_back(Token(type, lexeme, lit, line));
+}
+
+void Scanner::scanAfterNum() {
+	if (!isDone()) {
+		start = current;
+		afterNum = true;
+		scanToken();
+		afterNum = false;
+	}
+}
+
+void Scanner::scanAfterParen() {
+	if (!isDone()) {
+		start = current;
+		afterParen = true;
+		scanToken();
+		afterParen = false;
+	}
+}
+
+void Scanner::addImpliedMultiply() {
+	tokens.push_back(Token(
+		IMPLIED_MULTIPLY, // type
+		tokens[tokens.size() - 1].lexeme, // prev
+		NULL, line // curr line
+	));
 }
