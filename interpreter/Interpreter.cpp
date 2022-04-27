@@ -154,38 +154,20 @@ void Interpreter::visitBinary(const Binary* expression) {
 	LoxType right = getResult();
 
 	switch (expression->op.type) {
-	case EQUAL_EQUAL:
-		result = left == right;
-		break;
-	case BANG_EQUAL:
-		result = left != right;
-		break;
-	case GREATER:
-		result = left > right;
-		break;
-	case GREATER_EQUAL:
-		result = left >= right;
-		break;
-	case LESS:
-		result = left < right;
-		break;
-	case LESS_EQUAL:
-		result = left <= right;
-		break;
-	case PLUS:
-		result = left + right;
-		break;
-	case MINUS:
-		result = left - right;
-		break;
-	case STAR:
-		result = left * right;
-		break;
-	case SLASH:
-		result = left / right;
-		break;
-	default:
-		break;
+	case EQUAL_EQUAL:	result = left == right; break;
+	case BANG_EQUAL:	result = left != right; break;
+	case GREATER:		result = left > right; break;
+	case GREATER_EQUAL:	result = left >= right; break;
+	case LESS:			result = left < right; break;
+	case LESS_EQUAL:	result = left <= right; break;
+	case PLUS:			result = left + right; break;
+	case MINUS:			result = left - right; break;
+	case MODULUS:		result = left % right; break;
+	case STAR:			result = left * right; break;
+	case FSLASH:		result = left / right; break;
+	case BSLASH:		result = right / left; break;
+	case CARET:			result = left ^ right; break;
+	default:			break;
 	}
 }
 void Interpreter::visitCall(const Call* expression) {

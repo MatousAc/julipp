@@ -1,0 +1,35 @@
+program ::= ((expression statend)* | declaration*) EOF 
+statend ::= (";" | "\n")
+
+declaration ::= varDecl | statement
+varDecl ::= ("local" | "global")? IDENTIFIER ("=" expression)? statend
+
+statement ::= if | while | (expression statend)*
+if ::= "if" expression block ("elseif" expression block)* ("else" expression block)?
+while ::= "while" expression loopblock
+block ::= statement* "end"
+loopblock ::= (statement | loopstatement)* "end"
+loopstatement ::= break | continue
+break ::= "break" statend
+continue ::= "continue" statend
+
+expression ::= assignment
+assignment ::= (IDENTIFIER "=" assignment) | logic_or 
+logic_or ::= logic_and ("||" logic_and)*
+logic_and ::= equality ("&&" equality)*
+equality ::= comparison (("==" | "!=") comparison)* 
+comparison ::= term ((">" | "<" | "<=" | ">=") term)*
+term ::= factor (("+" | "-") factor)*
+factor ::= power (("/" | "\" | "*" | "%") power)*
+power ::= unary ("^" unary)*
+unary ::= ("!" | "-" | "+") unary | call 
+call ::= primary ("(" arguments? ")")* 
+primary ::= "true" | "false" | "nothing" | NUMBER | STRING | IDENTIFIER | "(" expression ")"
+
+
+arguments ::= expression ("," expression)*
+NUMBER ::= DIGIT+ ("." DIGIT+)?
+STRING ::=  '"' ([^"\\] | "\\" | '\"' | '\n')* '"'
+IDENTIFIER ::= ALPHA (ALPHA | DIGIT)*
+ALPHA ::= [A-Za-z_]
+DIGIT ::= [0-9]

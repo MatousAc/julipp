@@ -36,17 +36,18 @@ private:
 	vector<Stmt*> block();
 
 	Expr* expression();
-	Expr* ternary();
-	Expr* Or(); // or && and are reserved
-	Expr* And();
-	Expr* assignment();
-	Expr* equality();
-	Expr* comparison();
-	Expr* term();
-	Expr* factor();
-	Expr* unary();
-	Expr* call();
-	Expr* primary();
+	Expr* ternary();	// ?
+	Expr* Or();			// ||
+	Expr* And();		// &&
+	Expr* assignment();	// =
+	Expr* equality();	// == !=
+	Expr* comparison();	// <= >+ < >
+	Expr* term();		// +-
+	Expr* factor();		// */\% 
+	Expr* power();		// ^
+	Expr* unary();		// !-
+	Expr* call();		// ()
+	Expr* primary();	// (1), "hi"
 
 	// helpers
 	Expr* finishCall(Expr* callee);

@@ -317,9 +317,19 @@ Expr* Parser::term() {
 }
 
 Expr* Parser::factor() {
+	Expr* expression = power();
+
+	while (match(vector<TokenType>{ FSLASH, BSLASH, STAR, MODULUS })) {
+		Token op = previous();
+		Expr* right = power();
+		expression = new Binary(expression, op, right);
+	}
+	return expression;
+}
+Expr* Parser::power() {
 	Expr* expression = unary();
 
-	while (match(vector<TokenType>{ SLASH, STAR })) {
+	while (match(vector<TokenType>{ CARET })) {
 		Token op = previous();
 		Expr* right = unary();
 		expression = new Binary(expression, op, right);

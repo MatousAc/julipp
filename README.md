@@ -6,6 +6,8 @@ I feel pretty confident in being able to implement things through chapter 9. Wha
 * basic binary arithmetic operations
   * \+ \- \* / \ % ^
   * add, subtract, multiply, divide, inverse divide, modulus, exponentiate
+  * modulus if values can be considered integers is like regulas c modulus0
+  * modulus on numbers that are not wholes: subtracts right operand from left operand until the left operand is less than the right operand. only works with numbers
 * logic operations **||** and **&&**
 * implied *multiplication* such as $y = 3x + b$
 * variables

@@ -22,6 +22,7 @@ struct LoxType {
 	//LoxType(LoxFunction* function);
 	bool isnil() const;
 	bool isTruthy() const;
+	bool isInt() const;
 	string type() const;
 	string toString() const;
 	string numToLoxStr() const;
@@ -36,8 +37,10 @@ struct LoxType {
 
 	LoxType operator+(const LoxType& r);
 	LoxType operator-(const LoxType& r);
+	LoxType operator%(const LoxType& r);
 	LoxType operator*(const LoxType& r);
 	LoxType operator/(const LoxType& r);
+	LoxType operator^(const LoxType& r);
 
 	LoxType operator-();
 	bool operator!();
