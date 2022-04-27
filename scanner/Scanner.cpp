@@ -48,7 +48,6 @@ void Scanner::scanToken() {
 	case '{': addToken(LEFT_BRACE); break;
 	case '}': addToken(RIGHT_BRACE); break;
 	case ',': addToken(COMMA); break;
-	case '.': addToken(DOT); break;
 	case ';': addToken(SEMICOLON); break;
 	case '?': addToken(QUEST); break;
 	case ':': addToken(COLON); break;
@@ -85,14 +84,9 @@ void Scanner::scanToken() {
 		break;
 	case ' ':
 	case '\r':
-	case '\t':
-		break;
-	case '\n':
-		line++;
-		break;
-	case '"':
-		addString();
-		break;
+	case '\t': break;
+	case '\n': line++; break;
+	case '"': addString(); break;
 	case '(':
 		if (afterParen) addImpliedMultiply();
 		addToken(LEFT_PAREN);
@@ -100,10 +94,13 @@ void Scanner::scanToken() {
 	case ')': addToken(RIGHT_PAREN);
 		scanAfterParen();
 		break;
+	case '.': 
+		if (!isdigit(peek())) addToken(DOT);
+		else addNumber(true);
+		break;
 	default:
 		if (isdigit(c)) {
 			addNumber();
-			scanAfterNum(); // triggers another mode
 		} else if (isalpha(c)) {
 			addIdentifier();
 		// consume Nulls that some text editors add
@@ -152,9 +149,9 @@ void Scanner::addString() {
 	addToken(STRING, source.substr(start + 1, (current - start) - 2));
 }
 
-void Scanner::addNumber() {
+void Scanner::addNumber(bool inFractional) {
 	while (isdigit(peek())) next();
-	if (peek() == '.' && isdigit(peekNext())) {
+	if (peek() == '.' && isdigit(peekNext()) && !inFractional) {
 		next();
 		while (isdigit(peek())) next();
 	}
@@ -162,6 +159,7 @@ void Scanner::addNumber() {
 	if (afterParen) addImpliedMultiply();
 	addToken(NUMBER, num);
 	if (peek() == '(') addImpliedMultiply();
+	scanAfterNum(); // triggers another mode
 }
 
 void Scanner::addIdentifier() {

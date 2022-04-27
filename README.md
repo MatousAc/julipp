@@ -2,6 +2,7 @@
 ***
 I feel pretty confident in being able to implement things through chapter 9. What this specifically entails is:
 #### Expression Level
+[x] decimals can start as: 0.21 || .21
 [x] basic unary operators such as - and !
 [x] basic binary arithmetic operations
   [x] \+ \- \* / \ % ^
@@ -9,7 +10,7 @@ I feel pretty confident in being able to implement things through chapter 9. Wha
   [x] modulus if values can be considered integers is like regulas c modulus0
   [x] modulus on numbers that are not wholes: subtracts right operand from left operand until the left operand is less than the right operand. only works with numbers
 [x] logic operations **||** and **&&** - short circuiting
-[ ] implied *multiplication* such as $y = 3x + b$
+[x] implied *multiplication* such as $y = 3x + b$
     * I allow for general implied multiplication. when Julia throws errors that you cannot "call" a float, I would instead treat it as multiplication.
     * Example of things that work:
         * 3y

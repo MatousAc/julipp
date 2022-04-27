@@ -16,7 +16,8 @@ class Scanner {
 	char peekNext();
 	bool nextChar(char c);
 	void addString(); // scans string literal
-	void addNumber(); // scans a number literal
+	// scans a number literal
+	void addNumber(bool inFractional = false);
 	void addIdentifier(); // adds id
 	// just scans the next token in a mode
 	// that allows for implied multiplication
