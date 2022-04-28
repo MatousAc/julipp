@@ -33,7 +33,11 @@ private:
 	Stmt* expressionStatement();
 	Stmt* function(string kind);
 	Stmt* returnStatement();
-	vector<Stmt*> block();
+	// returns a collection of statements
+	Block* block();
+	// ifBlock ends @ "elseif" and
+	// "else" as well as "end"
+	Block* ifBlock();
 
 	Expr* expression();
 	Expr* ternary();	// ?

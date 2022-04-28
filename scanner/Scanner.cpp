@@ -12,11 +12,14 @@ Scanner::Scanner(string source)
 	start{ 0 }, current{ 0 }, line{ 1 } {
 	// initilize keywords
 	keywords["break"] = BREAK;
+	keywords["begin"] = BEGIN;
 	keywords["case"] = CASE;
 	keywords["continue"] = CONTINUE;
 	keywords["class"] = CLASS;
 	keywords["default"] = DEFAULT;
 	keywords["else"] = ELSE;
+	keywords["elseif"] = ELSEIF;
+	keywords["end"] = END;
 	keywords["exit"] = EXIT;
 	keywords["false"] = FALSE;
 	keywords["fun"] = FUN;
@@ -45,8 +48,6 @@ vector<Token> Scanner::scanTokens() {
 void Scanner::scanToken() {
 	char c = next();
 	switch (c) { // single character tokens
-	case '{': addToken(LEFT_BRACE); break;
-	case '}': addToken(RIGHT_BRACE); break;
 	case ',': addToken(COMMA); break;
 	case ';': addToken(STATEND); break;
 	case '?': addToken(QUEST); break;

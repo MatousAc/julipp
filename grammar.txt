@@ -7,7 +7,7 @@ varDecl ::= ("local" | "global")? IDENTIFIER ("=" expression)? statend
 statement ::= if | while | (expression statend)*
 if ::= "if" expression block ("elseif" expression block)* ("else" expression block)?
 while ::= "while" expression loopblock
-block ::= statement* "end"
+block ::= "begin"? statement* "end"
 loopblock ::= (statement | loopstatement)* "end"
 loopstatement ::= break | continue
 break ::= "break" statend

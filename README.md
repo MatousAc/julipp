@@ -38,20 +38,20 @@ I feel pretty confident in being able to implement things through chapter 9. Wha
   [ ] this includes **println()** or **round()** or other functions I have specified to support
 
 #### Statement Level
-[ ] ending
-  [ ] \n will matter. newlines can end statements
-  [ ] semicolons can end a statement too
-    [ ] indentation does not matter
+[x] ending
+  [x] \n will matter. newlines can end statements
+  [x] semicolons can end a statement too
+    [x] indentation does not matter
 [ ] control flow: **if**
   [ ] I will support julia's if-else statements
   [ ] I also plan to support the intermediate *elseif* statement(s)
   [ ] conditions should not require parentheses around them
 [ ] loops
-  [ ] I plan to support while loops
+  [x] I plan to support while loops
   [ ] while loops should have correct local soft scoping
   [ ] you should be able to use break;
   [ ] you should be able to use continue;
-[ ] I will support assignment
+[x] I will support assignment
  
 
 #### Strings
@@ -94,6 +94,7 @@ I feel pretty confident in being able to implement things through chapter 9. Wha
 * hard local scoping
 * bitwise
 * integer division
+* {} - matrix stuff
 
 #### Stretch Goals
 [ ] Julia has bitwise logical operators such as &, |, and ~. I'd like to try to implement these.

@@ -43,7 +43,7 @@ Stmt* Parser::varDeclaration() {
 }
 
 Stmt* Parser::statement() {
-	if (match({ STATEND })) return nullptr;
+	if (match({ STATEND })) return nullptr; // NoOp valid stmt
 	if (match({ BREAK })) return breakStatement();
 	if (match({ CASE })) throw pex(previous(),
 		"'case' must be inside switch statement");
@@ -57,7 +57,7 @@ Stmt* Parser::statement() {
 	if (match({ WHILE })) return whileStatement();
 	if (match({ IF })) return ifStatement();
 	if (match({ RETURN })) return returnStatement();
-	if (match({ LEFT_BRACE })) return new Block(block());
+	if (match({ BEGIN })) return block();
 	return expressionStatement();
 }
 
@@ -140,11 +140,11 @@ Stmt* Parser::forStatement() {
 Stmt* Parser::switchStatement() {
 	Stmt* body = nullptr;
 	Expr* switchOn = expression();
-	consume(LEFT_BRACE, "Expect '{' after switch expression.");
+	consume(BEGIN, "Expect '{' after switch expression.");
 	if (match({ CASE })) {
 		body = caseStatement(switchOn);
 	}
-	consume(RIGHT_BRACE, "Expect '}' after switch statement.");
+	consume(END, "Expect '}' after switch statement.");
 	return body;
 }
 
@@ -159,16 +159,15 @@ Stmt* Parser::whileStatement() {
 }
 
 Stmt* Parser::ifStatement() {
-	consume(LEFT_PAREN, "Expect '(' after 'if'.");
 	Expr* condition = expression();
-	consume(RIGHT_PAREN, "Expect ')' after if condition.");
 
-	Stmt* thenBranch = statement();
+	Stmt* thenBranch = ifBlock();
 	Stmt* elseBranch = nullptr;
 	if (match({ ELSE })) {
-		elseBranch = statement();
+		elseBranch = block();
+	} else { // only consume if we don't get regular block
+		consume(END, "Incomplete 'if' Expect 'end'");
 	}
-
 	return new If(condition, thenBranch, elseBranch);
 }
 
@@ -199,20 +198,31 @@ Stmt* Parser::function(string kind) {
 		} while (match({ COMMA }));
 	}
 	consume(RIGHT_PAREN, "Expect ')' after parameters.");
-	consume(LEFT_BRACE, "Expect '{' before " + kind + " body.");
-	vector<Stmt*> body = block();
+	consume(BEGIN, "Expect '{' before " + kind + " body.");
+	vector<Stmt*> body = block()->statements;
 	return new Function(name, params, body);
 }
 
-vector<Stmt*> Parser::block() {
+Block* Parser::block() {
 	vector<Stmt*> statements{};
 
-	while (!check(RIGHT_BRACE) && !isAtEnd()) {
+	while (!check(END) && !isAtEnd()) {
 		statements.push_back(declaration());
 	}
 
-	consume(RIGHT_BRACE, "Expect '}' after block.");
-	return statements;
+	consume(END, "Expect 'end' after block.");
+	return new Block(statements);
+}
+
+Block* Parser::ifBlock() {
+	vector<Stmt*> statements{};
+
+	while (!check(ELSEIF) && !check(ELSE) &&
+		!check(END) && !isAtEnd()) {
+		statements.push_back(declaration());
+	}
+
+	return new Block(statements);
 }
 
 Stmt* Parser::returnStatement() {
