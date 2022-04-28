@@ -48,7 +48,7 @@ void Scanner::scanToken() {
 	case '{': addToken(LEFT_BRACE); break;
 	case '}': addToken(RIGHT_BRACE); break;
 	case ',': addToken(COMMA); break;
-	case ';': addToken(SEMICOLON); break;
+	case ';': addToken(STATEND); break;
 	case '?': addToken(QUEST); break;
 	case ':': addToken(COLON); break;
 	case '-': addToken(MINUS); break;
@@ -85,7 +85,7 @@ void Scanner::scanToken() {
 	case ' ':
 	case '\r':
 	case '\t': break;
-	case '\n': line++; break;
+	case '\n':addToken(STATEND); line++; break;
 	case '"': addString(); break;
 	case '(':
 		if (afterParen) addImpliedMultiply();

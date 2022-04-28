@@ -38,11 +38,12 @@ Stmt* Parser::varDeclaration() {
 	Expr* initilizer = NULL;
 	if (match({ EQUAL })) initilizer = expression();
 
-	consume(SEMICOLON, "Expect ';' after variable declaration.");
+	consume(STATEND, "Expect ';' after variable declaration.");
 	return new Var(name, initilizer);
 }
 
 Stmt* Parser::statement() {
+	if (match({ STATEND })) return nullptr;
 	if (match({ BREAK })) return breakStatement();
 	if (match({ CASE })) throw pex(previous(),
 		"'case' must be inside switch statement");
@@ -64,7 +65,7 @@ Stmt* Parser::breakStatement() {
 	if (!inLoop())
 		throw pex(previous(),
 			"'break' must be inside while or for loop");
-	consume(SEMICOLON, "Expect ';' after 'break'.");
+	consume(STATEND, "Expect ';' after 'break'.");
 	return new Break();
 }
 
@@ -91,7 +92,7 @@ Stmt* Parser::continueStatement() {
 	if (!inLoop())
 		throw pex(previous(),
 			"'continue' must be inside while or for loop");
-	consume(SEMICOLON, "Expect ';' after 'continue'.");
+	consume(STATEND, "Expect ';' after 'continue'.");
 	return new Continue();
 }
 
@@ -101,7 +102,7 @@ Stmt* Parser::defaultCaseStatement() {
 }
 
 Stmt* Parser::exitStatement() {
-	consume(SEMICOLON, "Expect ';' after 'exit'.");
+	consume(STATEND, "Expect ';' after 'exit'.");
 	return new Exit();
 }
 
@@ -109,7 +110,7 @@ Stmt* Parser::forStatement() {
 	// init
 	consume(LEFT_PAREN, "Expect '(' after 'for'.");
 	Stmt* initializer;
-	if (match({ SEMICOLON })) {
+	if (match({ STATEND })) {
 		initializer = nullptr;
 	} else if (match({ VAR })) {
 		initializer = varDeclaration();
@@ -118,10 +119,10 @@ Stmt* Parser::forStatement() {
 	}
 	// condition
 	Expr* condition = nullptr;
-	if (!check(SEMICOLON)) {
+	if (!check(STATEND)) {
 		condition = expression();
 	}
-	consume(SEMICOLON, "Expect ';' after loop condition.");
+	consume(STATEND, "Expect ';' after loop condition.");
 	// increment
 	Expr* increment = nullptr;
 	if (!check(RIGHT_PAREN)) {
@@ -173,13 +174,13 @@ Stmt* Parser::ifStatement() {
 
 Stmt* Parser::printStatement() {
 	Expr* value = expression();
-	consume(SEMICOLON, "Expect ';' after value.");
+	consume(STATEND, "Expect ';' after value.");
 	return new Print(value);
 }
 
 Stmt* Parser::expressionStatement() {
 	Expr* expr = expression();
-	consume(SEMICOLON, "Expect ';' after expression.");
+	consume(STATEND, "Expect ';' after expression.");
 	return new Expression(expr);
 }
 
@@ -217,11 +218,11 @@ vector<Stmt*> Parser::block() {
 Stmt* Parser::returnStatement() {
 	Token keyword = previous();
 	Expr* value = NULL;
-	if (!check(SEMICOLON)) {
+	if (!check(STATEND)) {
 		value = expression();
 	}
 
-	consume(SEMICOLON, "Expect ';' after return value.");
+	consume(STATEND, "Expect ';' after return value.");
 
 	return new Return(keyword, value);
 }
@@ -462,7 +463,7 @@ void Parser::synchronize() {
 	advance();
 
 	while (!isAtEnd()) {
-		if (previous().type == SEMICOLON) return;
+		if (previous().type == STATEND) return;
 
 		switch (peek().type) {
 		case CASE:

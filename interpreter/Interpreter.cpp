@@ -54,7 +54,7 @@ void Interpreter::executeBlock(vector<Stmt*> statements,
 
 // private
 void Interpreter::execute(Stmt* stmt) {
-	stmt->accept(this);
+	if (stmt) stmt->accept(this); // if not nullptr
 }
 
 void Interpreter::evaluate(Expr* expression) {

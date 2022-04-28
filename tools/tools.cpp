@@ -89,7 +89,7 @@ bool isExpr(vector<Token> tokens) {
 		FOR, WHILE, LEFT_BRACE, EoF, IF, FUN
 		})) {
 		return false;
-	} else if ((*last).type != SEMICOLON) {
+	} else if ((*last).type != STATEND) {
 		// doesn't begin with stmt keyword
 		// && doesn't end in ';'
 		return true;
