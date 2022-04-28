@@ -22,7 +22,7 @@ vector<Stmt*> Parser::parse() {
 Stmt* Parser::declaration() {
 	try {
 		if (match({ FUN })) return function("function");
-		if (match({ VAR })) return varDeclaration();
+		if (match({ LOCAL })) return varDeclaration();
 		return statement();
 	}
 	catch (ParseExcept error) {
@@ -45,15 +45,15 @@ Stmt* Parser::varDeclaration() {
 Stmt* Parser::statement() {
 	if (match({ STATEND })) return nullptr; // NoOp valid stmt
 	if (match({ BREAK })) return breakStatement();
-	if (match({ CASE })) throw pex(previous(),
-		"'case' must be inside switch statement");
+	/*if (match({ CASE })) throw pex(previous(),
+		"'case' must be inside switch statement");*/
 	if (match({ CONTINUE })) return continueStatement();
 	if (match({ DEFAULT })) throw pex(previous(),
 		"'default' must be inside switch statement");
 	if (match({ EXIT })) return exitStatement();
 	if (match({ PRINT })) return printStatement();
 	if (match({ FOR })) return forStatement();
-	if (match({ SWITCH })) return switchStatement();
+	//if (match({ SWITCH })) return switchStatement();
 	if (match({ WHILE })) return whileStatement();
 	if (match({ IF })) return ifStatement();
 	if (match({ RETURN })) return returnStatement();
@@ -69,24 +69,24 @@ Stmt* Parser::breakStatement() {
 	return new Break();
 }
 
-Stmt* Parser::caseStatement(Expr* switchOn) {
-	// collect case (desugaring to if-else)
-	Token eq(EQUAL_EQUAL, "==", NULL, NULL);
-	Expr* compareTo = expression();
-	Expr* condition = new Binary(switchOn, eq, compareTo);
-	consume(COLON, "Expect ':' after case expression.");
-	Stmt* body = statement(); // grab one statement
-
-	// get any more cases
-	Stmt* nextCase = nullptr;
-	if (match({ CASE }))
-		nextCase = caseStatement(switchOn);
-	else if (match({ DEFAULT }))
-		nextCase = defaultCaseStatement();
-
-	// reverse recursive constuction of if-else statements:
-	return new If(condition, body, nextCase);
-}
+//Stmt* Parser::caseStatement(Expr* switchOn) {
+//	// collect case (desugaring to if-else)
+//	Token eq(EQUAL_EQUAL, "==", NULL, NULL);
+//	Expr* compareTo = expression();
+//	Expr* condition = new Binary(switchOn, eq, compareTo);
+//	consume(COLON, "Expect ':' after case expression.");
+//	Stmt* body = statement(); // grab one statement
+//
+//	// get any more cases
+//	Stmt* nextCase = nullptr;
+//	if (match({ CASE }))
+//		nextCase = caseStatement(switchOn);
+//	else if (match({ DEFAULT }))
+//		nextCase = defaultCaseStatement();
+//
+//	// reverse recursive constuction of if-else statements:
+//	return new If(condition, body, nextCase);
+//}
 
 Stmt* Parser::continueStatement() {
 	if (!inLoop())
@@ -112,7 +112,7 @@ Stmt* Parser::forStatement() {
 	Stmt* initializer;
 	if (match({ STATEND })) {
 		initializer = nullptr;
-	} else if (match({ VAR })) {
+	} else if (match({ LOCAL })) {
 		initializer = varDeclaration();
 	} else {
 		initializer = expressionStatement();
@@ -137,16 +137,16 @@ Stmt* Parser::forStatement() {
 	return new For(initializer, condition, increment, body);
 }
 
-Stmt* Parser::switchStatement() {
-	Stmt* body = nullptr;
-	Expr* switchOn = expression();
-	consume(BEGIN, "Expect '{' after switch expression.");
-	if (match({ CASE })) {
-		body = caseStatement(switchOn);
-	}
-	consume(END, "Expect '}' after switch statement.");
-	return body;
-}
+//Stmt* Parser::switchStatement() {
+//	Stmt* body = nullptr;
+//	Expr* switchOn = expression();
+//	consume(BEGIN, "Expect '{' after switch expression.");
+//	if (match({ CASE })) {
+//		body = caseStatement(switchOn);
+//	}
+//	consume(END, "Expect '}' after switch statement.");
+//	return body;
+//}
 
 Stmt* Parser::whileStatement() {
 	consume(LEFT_PAREN, "Expect '(' after 'while'.");
@@ -159,16 +159,19 @@ Stmt* Parser::whileStatement() {
 }
 
 Stmt* Parser::ifStatement() {
-	Expr* condition = expression();
-
-	Stmt* thenBranch = ifBlock();
+	vector<Expr*> conditions{};// = expression();
+	vector<Stmt*> thenBranches{};// = ifBlock();
+	do  {
+		conditions.push_back(expression());
+		thenBranches.push_back(ifBlock());
+	} while (match({ ELSEIF }));	
 	Stmt* elseBranch = nullptr;
 	if (match({ ELSE })) {
 		elseBranch = block();
 	} else { // only consume if we don't get regular block
 		consume(END, "Incomplete 'if' Expect 'end'");
 	}
-	return new If(condition, thenBranch, elseBranch);
+	return new If(conditions, thenBranches, elseBranch);
 }
 
 Stmt* Parser::printStatement() {
@@ -480,7 +483,7 @@ void Parser::synchronize() {
 		case CLASS:
 		case DEFAULT:
 		case FUN:
-		case VAR:
+		case LOCAL:
 		case FOR:
 		case IF:
 		case PRINT:

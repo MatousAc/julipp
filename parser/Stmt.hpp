@@ -108,12 +108,12 @@ struct Function : Stmt {
 };
 
 struct If : Stmt {
-    Expr* condition;
-    Stmt* thenBranch;
+    vector<Expr*> conditions;
+    vector<Stmt*> thenBranches;
     Stmt* elseBranch;
 
-    If(Expr* condition, Stmt* thenBranch, Stmt* elseBranch)
-        :condition{ condition }, thenBranch{ thenBranch }, elseBranch{ elseBranch } {}
+    If(vector<Expr*> conditions, vector<Stmt*> thenBranches, Stmt* elseBranch)
+        :conditions{ conditions }, thenBranches{ thenBranches }, elseBranch{ elseBranch } {}
 
     void accept(StmtVisitor* visitor) override {
         visitor->visitIf(this);

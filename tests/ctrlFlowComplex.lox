@@ -17,28 +17,3 @@ for (var j = 0; j < 4; j = j + 1) {
 	if (j == 3) break;
 	print "end";
 }
-
-// expected output:
-// j is 0
-// j is 1
-// i is 10
-// hi
-// i is 9
-// i is 8
-// hi
-// i is 7
-// hi
-// end
-// j is 2
-// i is 10
-// hi
-// i is 9
-// i is 8
-// end
-// j is 3
-// i is 10
-// hi
-// i is 9
-// i is 8
-
-// yaaaaas!!! it worked!!!

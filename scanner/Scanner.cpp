@@ -11,20 +11,19 @@ Scanner::Scanner(string source)
 	afterNum{ false }, afterParen{ false },
 	start{ 0 }, current{ 0 }, line{ 1 } {
 	// initilize keywords
-	keywords["break"] = BREAK;
 	keywords["begin"] = BEGIN;
+	keywords["break"] = BREAK;
 	keywords["case"] = CASE;
 	keywords["continue"] = CONTINUE;
-	keywords["class"] = CLASS;
+	keywords["do"] = DO;
 	keywords["default"] = DEFAULT;
 	keywords["else"] = ELSE;
 	keywords["elseif"] = ELSEIF;
 	keywords["end"] = END;
 	keywords["exit"] = EXIT;
 	keywords["false"] = FALSE;
-	keywords["fun"] = FUN;
-	keywords["for"] = FOR;
 	keywords["if"] = IF;
+	keywords["local"] = LOCAL;
 	keywords["nil"] = NIL;
 	keywords["print"] = PRINT;
 	keywords["return"] = RETURN;
@@ -32,8 +31,23 @@ Scanner::Scanner(string source)
 	keywords["switch"] = SWITCH;
 	keywords["this"] = THIS;
 	keywords["true"] = TRUE;
-	keywords["var"] = VAR;
 	keywords["while"] = WHILE;
+	// unsupported
+	keywords["baremodule"] = BAREMODULE;
+	keywords["class"] = CLASS;
+	keywords["catch"] = CATCH;
+	keywords["export"] = EXPORT;
+	keywords["finally"] = FINALLY;
+	keywords["for"] = FOR;
+	keywords["fun"] = FUN;
+	keywords["import"] = IMPORT;
+	keywords["let"] = LET;
+	keywords["macro"] = MACRO;
+	keywords["module"] = MODULE;
+	keywords["quote"] = QUOTE;
+	keywords["struct"] = STRUCT;
+	keywords["try"] = TRY;
+	keywords["using"] = USING;
 }
 
 vector<Token> Scanner::scanTokens() {

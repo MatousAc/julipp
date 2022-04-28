@@ -23,16 +23,18 @@ I feel pretty confident in being able to implement things through chapter 9. Wha
         * y(3) # cannot call this (in both implementations)
         * y3 # well, this is just a variable, guys
         * 3 y # no spaces!
+[ ] null value: there is a nill value - "nothing"
 [ ] variables
   [x] *identifiers* can begin with "a-z", "A-Z", or ascii symbols such as "_" if that character is not otherwise used by the language (we're not using "#^-+=!@~" and such)
   [x] I won't allow access to purely underscore variables
+[ ] *scoping*
+  [ ] I plan to provide functionality of a global scope (with the lexical scoping that Julia is supposed to have) and soft local scopes
   [ ] local variables can be declared using the **local** keyword or without it
   [ ] variables can also be declared in the global scope using **global** anywhere a variable could regularly be declared
   [ ] implicit variable declaration supported
-  [ ] *scoping*: I plan to provide functionality of a global scope (with the lexical scoping that Julia is supposed to have) and soft local scopes
 [ ] keywords: below is a list of julia's keywords. to keep in the spirit of the language, all of the keywords will be scanned, but while parsing, any keyword that is not supported will be reported as an error.
-  [ ] **supported**: continue do else elseif end false for global if local true while
-  [ ] **not supported**: baremodule begin break catch export finally try using import let macro module quote struct
+  [ ] **supported**: begin break continue do else elseif end false global if local true while
+  [x] **not supported**: baremodule catch export finally for try using import let macro module quote struct
 [ ] function calling
   [ ] I plan to support passing parameters and calling on identifiers that are pre-defined by the language
   [ ] this includes **println()** or **round()** or other functions I have specified to support
@@ -42,10 +44,10 @@ I feel pretty confident in being able to implement things through chapter 9. Wha
   [x] \n will matter. newlines can end statements
   [x] semicolons can end a statement too
     [x] indentation does not matter
-[ ] control flow: **if**
-  [ ] I will support julia's if-else statements
-  [ ] I also plan to support the intermediate *elseif* statement(s)
-  [ ] conditions should not require parentheses around them
+[x] control flow: **if**
+  [x] I will support julia's if-else statements
+  [x] I also plan to support the intermediate *elseif* statement(s)
+  [x] conditions should not require parentheses around them
 [ ] loops
   [x] I plan to support while loops
   [ ] while loops should have correct local soft scoping
@@ -73,6 +75,7 @@ I feel pretty confident in being able to implement things through chapter 9. Wha
 [ ] ceil(number) # rounds up
 [ ] abs(number) # returns the absolute value of the number that's passed in
 [ ] sqrt(number) # returns the square root of the number that's passed in
+[ ] Nothing() # returns nothing
 
 
 ### Specifically Excluding

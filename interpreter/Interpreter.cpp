@@ -101,10 +101,16 @@ void Interpreter::visitFunction(const Function* statement) {
 	environment->define(statement->name.lexeme, LoxType{ function });
 }
 void Interpreter::visitIf(const If* statement) {
-	evaluate(statement->condition); // eval cond
-	if (getResult().isTruthy()) {
-		execute(statement->thenBranch);
-	} else if (statement->elseBranch != nullptr) {
+	int i = 0;
+	for (Expr* condition : statement->conditions) {
+		evaluate(condition);
+		Stmt* thenBranch = statement->thenBranches.at(i++);
+		if (getResult().isTruthy()) {
+			execute(thenBranch);
+			return;
+		}
+	} // else
+	if (statement->elseBranch != nullptr) {
 		execute(statement->elseBranch);
 	}
 }

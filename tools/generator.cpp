@@ -33,7 +33,7 @@ void generator(vector<string> args) {
 			"Expression	: Expr* expression",
 			"For : Stmt* initializer, Expr* condition, Expr* increment, Stmt* body",
 			"Function : Token name, vector<Token> params, vector<Stmt*> body",
-			"If : Expr* condition, Stmt* thenBranch, Stmt* elseBranch",
+			"If : vector<Expr*> conditions, vector<Stmt*> thenBranches, Stmt* elseBranch",
 			"Print : Expr* expression",
 			"Return : Token keyword, Expr* value",
 			"Var : Token name, Expr* initializer",
