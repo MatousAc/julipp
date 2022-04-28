@@ -45,6 +45,8 @@ private:
 	virtual void visitUnary(const Unary* expression) override;
 	virtual void visitTernary(const Ternary* expression) override;
 	virtual void visitVariable(const Variable* expression) override;	
+	// helpers
+	bool isUnderscores(string s);
 };
 
 struct BreakExcept : public runtime_error {

@@ -237,7 +237,16 @@ void Interpreter::visitTernary(const Ternary* expression) {
 		expression->ifFalse->accept(this);
 }
 void Interpreter::visitVariable(const Variable* expression) {
+	if (isUnderscores(expression->name.lexeme))
+		err->handleRunError(RunError{ 
+		"all-underscore identifier used as rvalue" });
 	result = environment->grab(expression->name);
+}
+
+bool Interpreter::isUnderscores(string s) {
+	for (char const& c : s)
+		if (c != '_') return false;
+	return true;
 }
 
 // exceptions

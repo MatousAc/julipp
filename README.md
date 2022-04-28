@@ -24,8 +24,8 @@ I feel pretty confident in being able to implement things through chapter 9. Wha
         * y3 # well, this is just a variable, guys
         * 3 y # no spaces!
 [ ] variables
-  [ ] *identifiers* can begin with "a-z", "A-Z", or ascii symbols such as "_" if that character is not otherwise used by the language (we're not using "#^-+=!@~" and such)
-  [ ] I won't allow access to purely underscore variables
+  [x] *identifiers* can begin with "a-z", "A-Z", or ascii symbols such as "_" if that character is not otherwise used by the language (we're not using "#^-+=!@~" and such)
+  [x] I won't allow access to purely underscore variables
   [ ] local variables can be declared using the **local** keyword or without it
   [ ] variables can also be declared in the global scope using **global** anywhere a variable could regularly be declared
   [ ] implicit variable declaration supported

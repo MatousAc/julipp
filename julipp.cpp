@@ -35,7 +35,6 @@ void runPrompt() {
 		if (line == "") break;
 		// czech if just expression
 		exprToPrint(line);
-
 		int code = run(line);
 		switch (code) {
 		case 65:
