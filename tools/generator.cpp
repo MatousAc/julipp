@@ -31,12 +31,11 @@ void generator(vector<string> args) {
 			"Continue",
 			"Exit",
 			"Expression	: Expr* expression",
-			"For : Stmt* initializer, Expr* condition, Expr* increment, Stmt* body",
 			"Function : Token name, vector<Token> params, vector<Stmt*> body",
 			"If : vector<Expr*> conditions, vector<Stmt*> thenBranches, Stmt* elseBranch",
 			"Print : Expr* expression",
 			"Return : Token keyword, Expr* value",
-			"Var : Token name, Expr* initializer",
+			"Local : Token name, Expr* initializer",
 			"While : Expr* condition, Stmt* body"
 		});
 }

@@ -1,17 +1,17 @@
-#include "LoxFunction.h"
-#include "LoxType.h"
+#include "JFunction.h"
+#include "JType.h"
 
 struct ReturnExcept;
 
-LoxFunction::LoxFunction(Function* declaration) 
+JFunction::JFunction(Function* declaration) 
 	: declaration{ declaration } {}
 
-int LoxFunction::arity() {
+int JFunction::arity() {
     return (int)declaration->params.size();
 }
 
-LoxType LoxFunction::call(Interpreter* interpreter, 
-    vector<LoxType> arguments) {
+JType JFunction::call(Interpreter* interpreter, 
+    vector<JType> arguments) {
     Environment* environment = new Environment(interpreter->globals);
     interpreter->globals->dump();
     for (int i = 0; i < declaration->params.size(); i++) {
@@ -26,9 +26,9 @@ LoxType LoxFunction::call(Interpreter* interpreter,
     catch (ReturnExcept returnValue) {
         return returnValue.value;
     }
-    return LoxType{};
+    return JType{};
 }
 
-string LoxFunction::toString() {
+string JFunction::toString() {
     return "<fn " + declaration->name.lexeme + ">";
 }

@@ -13,12 +13,12 @@ struct RunError : public runtime_error {
 };
 
 // handles error reporting
-class LoxError {
+class JError {
 public:
 	bool hadError;
 	bool hadRunError;
 
-	LoxError();
+	JError();
 
 	// error reporting
 	void report(int line, string msg, string where = "");
@@ -30,4 +30,4 @@ public:
 	void handleRunError(RunError error);
 };
 
-inline LoxError* err = new LoxError;
+inline JError* err = new JError;

@@ -1,15 +1,15 @@
 #pragma once
 #include "../include.h"
 #include "../parser/Stmt.hpp"
-#include "LoxType.h"
+#include "JType.h"
 #include "Interpreter.h"
 
 //class Interpreter;
 
-struct LoxCallable {
+struct JCallable {
 	virtual int arity() = 0;
-	virtual LoxType call(Interpreter* interpreter, vector<LoxType> arguments) = 0;
+	virtual JType call(Interpreter* interpreter, vector<JType> arguments) = 0;
 	virtual string toString() = 0;
 };
 // no need to use getResult() here because we know a function must return
-// a LoxType (even if that is nil)
+// a JType (even if that is nil)

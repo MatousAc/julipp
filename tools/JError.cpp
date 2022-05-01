@@ -1,4 +1,4 @@
-#include "LoxError.h"
+#include "JError.h"
 
 RunError::RunError() :
 	token{ EoF, "placeholder", NULL, -1 },
@@ -14,18 +14,18 @@ RunError::RunError(const Token token, const string& message)
 	runtime_error{ message.c_str() } {}
 
 
-LoxError::LoxError() :
+JError::JError() :
 	hadRunError{ false },
 	hadError{ false } {};
 
-void LoxError::report(int line, string msg, string where) {
+void JError::report(int line, string msg, string where) {
 	cout << "[line " << line
 		<< "] Error at " << where << " : "
 		<< msg << endl;
 	hadError = true;
 }
 
-void LoxError::error(Token token, string message) {
+void JError::error(Token token, string message) {
 	if (token.type == EoF) {
 		report(token.line, message, "end");
 	} else {
@@ -33,15 +33,15 @@ void LoxError::error(Token token, string message) {
 	}
 }
 
-RunError LoxError::runErrorMUT() {
+RunError JError::runErrorMUT() {
 	throw RunError{ "mismatched type at unary operator" };
 }
 
-RunError LoxError::runErrorMBT() {
+RunError JError::runErrorMBT() {
 	throw RunError{ "mismatched types around binary operator" };
 }
 
-void LoxError::handleRunError(RunError error) {
+void JError::handleRunError(RunError error) {
 	cout << error.message + "\n[line "
 		+ to_string(error.token.line) + "] ";
 	hadRunError = true;

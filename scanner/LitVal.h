@@ -1,6 +1,6 @@
 #pragma once
 #include "../include.h"
-#include "../interpreter/LoxType.h"
+#include "../interpreter/JType.h"
 #define DOUBLE_PRECISION 1e-7
 
 struct LitVal {
@@ -10,6 +10,5 @@ struct LitVal {
 	bool empty() const;
 	string toString() const;
 	string numToString() const;
-	LoxType retrieve() const;
+	JType retrieve() const;
 };
-

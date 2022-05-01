@@ -1,6 +1,6 @@
 // parses tokens into an Abstract Syntax Tree
 #include "Parser.h"
-#include "../tools/LoxError.h"
+#include "../tools/JError.h"
 #include "../tools/AstPrinter.h"
 #include "../tools/helpers.h" // for instance_of
 #include <typeinfo>
@@ -39,7 +39,7 @@ Stmt* Parser::varDeclaration() {
 	if (match({ EQUAL })) initilizer = expression();
 
 	consume(STATEND, "Expect ';' after variable declaration.");
-	return new Var(name, initilizer);
+	return new Local(name, initilizer);
 }
 
 Stmt* Parser::statement() {
@@ -53,7 +53,6 @@ Stmt* Parser::statement() {
 		"'default' must be inside switch statement");
 	if (match({ EXIT })) return exitStatement();
 	if (match({ PRINT })) return printStatement();
-	if (match({ FOR })) return forStatement();
 	//if (match({ SWITCH })) return switchStatement();
 	if (match({ WHILE })) return whileStatement();
 	if (match({ IF })) return ifStatement();
@@ -104,37 +103,6 @@ Stmt* Parser::defaultCaseStatement() {
 Stmt* Parser::exitStatement() {
 	consume(STATEND, "Expect ';' after 'exit'.");
 	return new Exit();
-}
-
-Stmt* Parser::forStatement() {
-	// init
-	consume(LEFT_PAREN, "Expect '(' after 'for'.");
-	Stmt* initializer;
-	if (match({ STATEND })) {
-		initializer = nullptr;
-	} else if (match({ LOCAL })) {
-		initializer = varDeclaration();
-	} else {
-		initializer = expressionStatement();
-	}
-	// condition
-	Expr* condition = nullptr;
-	if (!check(STATEND)) {
-		condition = expression();
-	}
-	consume(STATEND, "Expect ';' after loop condition.");
-	// increment
-	Expr* increment = nullptr;
-	if (!check(RIGHT_PAREN)) {
-		increment = expression();
-	}
-	consume(RIGHT_PAREN, "Expect ')' after increment.");
-
-	loopDepth++;
-	// body
-	Stmt* body = statement();
-	loopDepth--;
-	return new For(initializer, condition, increment, body);
 }
 
 //Stmt* Parser::switchStatement() {
@@ -390,13 +358,13 @@ Expr* Parser::call() {
 
 Expr* Parser::primary() {
 	// we take false, true, or nil and create a Literal that holds a LoxType
-	if (match({FALSE})) return new Literal(LoxType{ false });
-	if (match({TRUE})) return new Literal(LoxType{ true });
-	if (match({NIL})) return new Literal(LoxType{});
+	if (match({FALSE})) return new Literal(JType{ false });
+	if (match({TRUE})) return new Literal(JType{ true });
+	if (match({NIL})) return new Literal(JType{});
 
 	// package a LitVal as a LoxType and store it in Literal
 	if (match(vector<TokenType>{NUMBER, STRING})) {
-		return new Literal(LoxType{ previous().lit.retrieve() });
+		return new Literal(JType{ previous().lit.retrieve() });
 	}
 
 	if (match({ IDENTIFIER })) {

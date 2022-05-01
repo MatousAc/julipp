@@ -1,6 +1,6 @@
 #include "julipp.h"
 #include "tools/tools.h"
-#include "tools/LoxError.h"
+#include "tools/JError.h"
 #include "scanner/Token.h"
 #include "scanner/Scanner.h"
 #include "tools/AstPrinter.h"

@@ -2,20 +2,20 @@
 #include "../include.h"
 #include "../parser/Expr.hpp"
 #include "../julipp.h"
-#include "LoxType.h"
+#include "JType.h"
 #include "Environment.h"
 
 class Interpreter : ExprVisitor, StmtVisitor {
 public:
 	Interpreter();
 	void interpret(vector<Stmt*> statements);
-	LoxType getResult();
+	JType getResult();
 	// these two are for LoxFunction to use
 	void executeBlock(vector<Stmt*> statements, Environment* environment);
 	Environment* globals;
 
 private:
-	LoxType result;
+	JType result;
 	Environment* environment;
 	Token curToken; // for error reporting
 
@@ -28,12 +28,11 @@ private:
 	virtual void visitContinue(const Continue* statement) override;
 	virtual void visitExit(const Exit* statement) override;
 	virtual void visitExpression(const Expression* statement) override;
-	virtual void visitFor(const For* statement) override;
 	virtual void visitFunction(const Function* statement) override;
 	virtual void visitIf(const If* statement) override;
 	virtual void visitPrint(const Print* statement) override;
 	virtual void visitReturn(const Return* statement) override;
-	virtual void visitVar(const Var* statement) override;
+	virtual void visitLocal(const Local* statement) override;
 	virtual void visitWhile(const While* statement) override;
 	// expressions
 	virtual void visitAssign(const Assign* expression) override;
@@ -65,8 +64,8 @@ struct ContinueExcept : public runtime_error {
 //};
 
 struct ReturnExcept {
-	LoxType value;
-	ReturnExcept(LoxType value);
+	JType value;
+	ReturnExcept(JType value);
 };
 	 
 // global, stateful interpreter

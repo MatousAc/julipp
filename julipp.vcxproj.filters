@@ -24,10 +24,10 @@
     <ClCompile Include="interpreter\Interpreter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="interpreter\LoxFunction.cpp">
+    <ClCompile Include="interpreter\JFunction.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="interpreter\LoxType.cpp">
+    <ClCompile Include="interpreter\JType.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="parser\Parser.cpp">
@@ -60,7 +60,7 @@
     <ClCompile Include="tools\helpers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="tools\LoxError.cpp">
+    <ClCompile Include="tools\JError.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="tools\RPNPrinter.cpp">
@@ -86,13 +86,13 @@
     <ClInclude Include="interpreter\Interpreter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="interpreter\LoxCallable.h">
+    <ClInclude Include="interpreter\JCallable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="interpreter\LoxFunction.h">
+    <ClInclude Include="interpreter\JFunction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="interpreter\LoxType.h">
+    <ClInclude Include="interpreter\JType.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="parser\Expr.hpp">
@@ -131,7 +131,7 @@
     <ClInclude Include="tools\helpers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="tools\LoxError.h">
+    <ClInclude Include="tools\JError.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="tools\RPNPrinter.h">

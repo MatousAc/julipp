@@ -33,11 +33,11 @@ string LitVal::numToString() const {
 	return res;
 }
 
-LoxType LitVal::retrieve() const {
+JType LitVal::retrieve() const {
 	if (holds_alternative<string>(value))
-		return LoxType{ get<string>(value) };
+		return JType{ get<string>(value) };
 	else if (holds_alternative<double>(value))
-		return LoxType{ get<double>(value) };
+		return JType{ get<double>(value) };
 	else
-		return LoxType{};
+		return JType{};
 }

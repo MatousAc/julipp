@@ -1,8 +1,8 @@
 // interprets the Abstract Syntax Tree
 #include "Interpreter.h"
-#include "../tools/LoxError.h"
-#include "LoxCallable.h"
-#include "LoxFunction.h"
+#include "../tools/JError.h"
+#include "JCallable.h"
+#include "JFunction.h"
 #include "../tools/helpers.h"
 #include "ClockFunction.hpp"
 
@@ -34,7 +34,7 @@ void Interpreter::interpret(vector<Stmt*> statements) {
 	}
 }
 
-LoxType Interpreter::getResult() {
+JType Interpreter::getResult() {
 	return result;
 }
 
@@ -77,28 +77,14 @@ void Interpreter::visitContinue(const Continue* statement) {
 void Interpreter::visitExit(const Exit* statement) {
 	exit(0); // we just quit the interpreter here
 }
-void Interpreter::visitFor(const For* statement) {
-	if (statement->initializer != nullptr) // init
-		execute(statement->initializer);
-	// loop
-	evaluate(statement->condition);
-	while (getResult().isTruthy()) {
-		try { execute(statement->body); }
-		catch (BreakExcept) { break; }
-		catch (ContinueExcept) {} // try to increment and eval cond.
-		if (statement->increment != nullptr)
-			evaluate(statement->increment);
-		evaluate(statement->condition);
-	}
-}
 void Interpreter::visitFunction(const Function* statement) {
-	LoxFunction* function{ new LoxFunction{ 
+	JFunction* function{ new JFunction{ 
 		new Function(
 		statement->name, // we have to make a new function node here
 		statement->params, // cause of the const constraints
 		statement->body
 		) } };
-	environment->define(statement->name.lexeme, LoxType{ function });
+	environment->define(statement->name.lexeme, JType{ function });
 }
 void Interpreter::visitIf(const If* statement) {
 	int i = 0;
@@ -115,7 +101,7 @@ void Interpreter::visitIf(const If* statement) {
 	}
 }
 void Interpreter::visitReturn(const Return* statement) {
-	LoxType value{};
+	JType value{};
 	if (statement->value != NULL) {
 		evaluate(statement->value);
 		value = getResult();
@@ -124,11 +110,11 @@ void Interpreter::visitReturn(const Return* statement) {
 }
 void Interpreter::visitPrint(const Print* statement) {
 	evaluate(statement->expression);
-	LoxType value = getResult();
+	JType value = getResult();
 	cout << value.toString() << endl;
 }
-void Interpreter::visitVar(const Var* statement) {
-	LoxType value{};
+void Interpreter::visitLocal(const Local* statement) {
+	JType value{};
 	if (statement->initializer != NULL) {
 		evaluate(statement->initializer);
 		value = getResult();
@@ -148,16 +134,16 @@ void Interpreter::visitWhile(const While* statement) {
 // visiting expressions
 void Interpreter::visitAssign(const Assign* expression) {
 	evaluate(expression->value);
-	LoxType value = getResult();
+	JType value = getResult();
 	environment->assign(expression->name, value);
 	result = value;
 }
 void Interpreter::visitBinary(const Binary* expression) {
 	curToken = expression->op;
 	evaluate(expression->left);
-	LoxType left = getResult();
+	JType left = getResult();
 	evaluate(expression->right);
-	LoxType right = getResult();
+	JType right = getResult();
 
 	switch (expression->op.type) {
 	case EQUAL_EQUAL:	result = left == right; break;
@@ -178,23 +164,23 @@ void Interpreter::visitBinary(const Binary* expression) {
 }
 void Interpreter::visitCall(const Call* expression) {
 	evaluate(expression->callee);
-	LoxType callee = getResult();
+	JType callee = getResult();
 
-	vector<LoxType> arguments{};
+	vector<JType> arguments{};
 	for (auto argument : expression->arguments) {
 		evaluate(argument);
-		if (getResult() < LoxType{ 0.0 }) {
+		if (getResult() < JType{ 0.0 }) {
 			evaluate(argument);
 		}
 		arguments.push_back(getResult());
 	}
 
-	if (!holds_alternative<LoxCallable*>(callee.value)) {
+	if (!holds_alternative<JCallable*>(callee.value)) {
 		throw RunError(expression->paren,
 			"Can only call functions and classes.");
 	}
 
-	LoxCallable* function = get<LoxCallable*>(callee.value);
+	JCallable* function = get<JCallable*>(callee.value);
 	if (arguments.size() != function->arity()) {
 	throw RunError(expression->paren, "Expected " +
 		to_string(function->arity()) + " arguments but got " +
@@ -210,7 +196,7 @@ void Interpreter::visitLiteral(const Literal* expression) {
 }
 void Interpreter::visitLogical(const Logical* expression) {
 	evaluate(expression->left);
-	LoxType left = getResult();
+	JType left = getResult();
 	// FIXME can we simplify this?
 	if (expression->op.type == OR) {
 		if (left.isTruthy()) return;
@@ -222,7 +208,7 @@ void Interpreter::visitLogical(const Logical* expression) {
 void Interpreter::visitUnary(const Unary* expression) {
 	curToken = expression->op;
 	evaluate(expression->right);
-	LoxType right = getResult();
+	JType right = getResult();
 
 	switch (expression->op.type) {
 	case MINUS:
@@ -266,5 +252,5 @@ ContinueExcept::ContinueExcept(const string& message) : runtime_error{ message.c
 //ReturnExcept::ReturnExcept() : runtime_error{ "" } {}
 //ReturnExcept::ReturnExcept(const string& message) : runtime_error{ message.c_str() } {}
 
-ReturnExcept::ReturnExcept(LoxType value) 
+ReturnExcept::ReturnExcept(JType value) 
 	: value{ value } {}

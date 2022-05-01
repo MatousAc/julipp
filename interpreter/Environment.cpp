@@ -4,11 +4,11 @@ Environment::Environment(Environment* enclosing)
 	: values{},
 	enclosing{ enclosing } {}
 
-void Environment::define(string name, LoxType value) {
+void Environment::define(string name, JType value) {
 	values[name] = value;
 }
 
-void Environment::assign(Token name, LoxType value) {
+void Environment::assign(Token name, JType value) {
 	if (values.find(name.lexeme) != values.end()) {
 		values[name.lexeme] = value;
 		return;
@@ -23,7 +23,7 @@ void Environment::assign(Token name, LoxType value) {
 		"Undefined variable '" + name.lexeme + "'.");
 }
 
-LoxType Environment::grab(Token name) {
+JType Environment::grab(Token name) {
 	// search in current scope
 	if (values.find(name.lexeme) != values.end())
 		return values[name.lexeme];

@@ -1,7 +1,7 @@
 #pragma once
 #include <unordered_map>
 #include "../include.h"
-#include "../tools/LoxError.h"
+#include "../tools/JError.h"
 #include "Token.h"
 
 class Scanner {

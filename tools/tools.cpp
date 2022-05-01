@@ -31,9 +31,9 @@ void testAstPrinter() {
 	Token min(MINUS, "-", NULL, 1);
 	Token star(STAR, "*", NULL, 1);
 	Grouping grp = new Binary(
-		new Unary(min, new Literal(LoxType{ 123.0 })),
+		new Unary(min, new Literal(JType{ 123.0 })),
 		star,
-		new Grouping(new Literal(LoxType{ 45.67 })));
+		new Grouping(new Literal(JType{ 45.67 })));
 
 	AstPrinter pp;
 	pp.read(&grp);

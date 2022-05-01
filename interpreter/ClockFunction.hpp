@@ -1,11 +1,11 @@
 #pragma once
 #include <chrono>
-#include "LoxCallable.h"
+#include "JCallable.h"
 using namespace std::chrono;
 
-struct ClockFunction : LoxCallable {
+struct ClockFunction : JCallable {
 	int arity() override { return 0; }
-	LoxType call(Interpreter* interpreter, vector<LoxType> arguments) {
+	JType call(Interpreter* interpreter, vector<JType> arguments) {
 		return (double)duration_cast<milliseconds>(
 			time_point_cast<milliseconds>(system_clock::now()
 				).time_since_epoch()).count() / 1000;

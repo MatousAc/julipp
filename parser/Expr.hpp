@@ -78,9 +78,9 @@ struct Grouping : Expr {
 };
 
 struct Literal : Expr {
-    LoxType value;
+    JType value;
 
-    Literal(LoxType value)
+    Literal(JType value)
         :value{ value } {}
 
     void accept(ExprVisitor* visitor) override {

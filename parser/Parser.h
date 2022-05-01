@@ -25,7 +25,6 @@ private:
 	Stmt* caseStatement(Expr* switchOn);
 	Stmt* defaultCaseStatement();
 	Stmt* exitStatement();
-	Stmt* forStatement();
 	Stmt* switchStatement();
 	Stmt* whileStatement();
 	Stmt* ifStatement();

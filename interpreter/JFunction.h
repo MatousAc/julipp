@@ -2,13 +2,13 @@
 #include "../include.h"
 #include "../parser/Stmt.hpp"
 #include "Interpreter.h"
-#include "LoxCallable.h"
+#include "JCallable.h"
 
-struct LoxFunction : LoxCallable {
+struct JFunction : JCallable {
 	Function* declaration;
 public:
-	LoxFunction(Function* declaration);
+	JFunction(Function* declaration);
 	int arity() override;
-	LoxType call(Interpreter* interpreter, vector<LoxType> arguments) override;
+	JType call(Interpreter* interpreter, vector<JType> arguments) override;
 	string toString() override;
 };

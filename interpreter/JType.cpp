@@ -1,26 +1,26 @@
 #include <math.h>
-#include "LoxType.h"
-#include "../tools/LoxError.h"
+#include "JType.h"
+#include "../tools/JError.h"
 #include "../tools/helpers.h"
 
 // various constructors
-LoxType::LoxType() {}
-LoxType::LoxType(string str)
+JType::JType() {}
+JType::JType(string str)
 	: value{ str } {}
-LoxType::LoxType(double dbl)
+JType::JType(double dbl)
 	: value{ dbl } {}
-LoxType::LoxType(bool bl)
+JType::JType(bool bl)
 	: value{ bl } {}
-LoxType::LoxType(LoxCallable* callable)
+JType::JType(JCallable* callable)
 	: value{ callable } {}
 
 
 // czechs if empty (contains NULL)
-bool LoxType::isnil() const {
+bool JType::isnil() const {
 	return holds_alternative<monostate>(value);
 }
 
-bool LoxType::isTruthy() const {
+bool JType::isTruthy() const {
 	if (isnil())
 		return false;
 	else if (holds_alternative<bool>(value))
@@ -29,7 +29,7 @@ bool LoxType::isTruthy() const {
 		return true;
 }
 
-bool LoxType::isInt() const {
+bool JType::isInt() const {
 	double dbl = get<double>(value);
 	int integer = (int)dbl;
 	double diff = (dbl - integer);
@@ -37,7 +37,7 @@ bool LoxType::isInt() const {
 	return  diff < DOUBLE_PRECISION;
 }
 // czechs type
-string LoxType::type() const {
+string JType::type() const {
 	string res = "unknown type";
 	if (isnil())
 		res = "nil";
@@ -49,7 +49,7 @@ string LoxType::type() const {
 	else if (holds_alternative<bool>(value)) {
 		res = "bool";
 	}
-	else if (holds_alternative<LoxCallable*>(value)) {
+	else if (holds_alternative<JCallable*>(value)) {
 		res = "LoxCallable*";
 	}
 	else if (holds_alternative<monostate>(value)) {
@@ -58,7 +58,7 @@ string LoxType::type() const {
 	return res;
 }
 
-string LoxType::toString() const {
+string JType::toString() const {
 	string res;
 	if (isnil())
 		res = "nil";
@@ -68,7 +68,7 @@ string LoxType::toString() const {
 		res = this->numToLoxStr();
 	else if (holds_alternative<bool>(value))
 		res = (get<bool>(value)) ? "true" : "false";
-	else if (holds_alternative<LoxCallable*>(value))
+	else if (holds_alternative<JCallable*>(value))
 		res = "function() . . .";
 	else
 		res = "unknown type";
@@ -76,7 +76,7 @@ string LoxType::toString() const {
 	return res;
 }
 // helper
-string LoxType::numToLoxStr() const {
+string JType::numToLoxStr() const {
 	double dbl = get<double>(value);
 	string res;
 	if (this->isInt())
@@ -88,7 +88,7 @@ string LoxType::numToLoxStr() const {
 ///// ~~ operator overloads ~~ /////
 // logical
 // == : equals (different types cannpt be equal)
-bool LoxType::operator==(const LoxType& r) {
+bool JType::operator==(const JType& r) {
 	if (isnil() && r.isnil())
 		return true;
 	else if (isnil() || r.isnil())
@@ -105,11 +105,11 @@ bool LoxType::operator==(const LoxType& r) {
 		return false;
 }
 // !=
-bool LoxType::operator!=(const LoxType& r) {
+bool JType::operator!=(const JType& r) {
 	return !((*this) == r);
 }
 // > : numerical && textual greater than
-bool LoxType::operator>(const LoxType& r) {
+bool JType::operator>(const JType& r) {
 	if (isnil() || r.isnil())
 		return false;
 	// double > double
@@ -125,11 +125,11 @@ bool LoxType::operator>(const LoxType& r) {
 	return false;
 }
 // >=
-bool LoxType::operator>=(const LoxType& r) {
+bool JType::operator>=(const JType& r) {
 	return *this > r || *this == r;
 }
 // < : num && text less than
-bool LoxType::operator<(const LoxType& r) {
+bool JType::operator<(const JType& r) {
 	if (isnil() || r.isnil())
 		return false;
 	// double > double
@@ -145,13 +145,13 @@ bool LoxType::operator<(const LoxType& r) {
 	return false;
 }
 // <=
-bool LoxType::operator<=(const LoxType& r) {
+bool JType::operator<=(const JType& r) {
 	return *this < r || *this == r;
 }
 
 // arithmetic
 // + : addition, concatenation
-LoxType LoxType::operator+(const LoxType& r) {
+JType JType::operator+(const JType& r) {
 	if (isnil()) // if this is empty
 		return r;
 	else if (r.isnil())
@@ -174,12 +174,12 @@ LoxType LoxType::operator+(const LoxType& r) {
 		return this->numToLoxStr() + get<string>(r.value);
 	else // mismatched types
 		err->runErrorMBT();
-	return LoxType{};
+	return JType{};
 }
 // - : subtraction
-LoxType LoxType::operator-(const LoxType& r) {
+JType JType::operator-(const JType& r) {
 	if (isnil()) // if this is empty
-		return (-LoxType{ r });
+		return (-JType{ r });
 	else if (r.isnil())
 		return this;
 	// double - double
@@ -188,10 +188,10 @@ LoxType LoxType::operator-(const LoxType& r) {
 		return get<double>(value) - get<double>(r.value);
 	else // mismatched types
 		err->runErrorMBT();
-	return LoxType{};
+	return JType{};
 }
 // % : modulus
-LoxType LoxType::operator%(const LoxType& r) {
+JType JType::operator%(const JType& r) {
 	if(!holds_alternative<double>(value) ||
 	   !holds_alternative<double>(r.value))
 		// no support for other types
@@ -206,9 +206,9 @@ LoxType LoxType::operator%(const LoxType& r) {
 	}
 }
 // * : multiplication and string duplication
-LoxType LoxType::operator*(const LoxType& r) {
+JType JType::operator*(const JType& r) {
 	if (isnil() || r.isnil()) // x * 0 = 0
-		return LoxType{};
+		return JType{};
 	// double * double
 	else if (holds_alternative<double>(value) &&
 		holds_alternative<double>(r.value))
@@ -227,12 +227,12 @@ LoxType LoxType::operator*(const LoxType& r) {
 		return get<string>(value) + get<string>(r.value);
 	else // mismatched types
 		err->runErrorMBT();
-	return LoxType{};
+	return JType{};
 }
 // / : division and line breaks
-LoxType LoxType::operator/(const LoxType& r) {
+JType JType::operator/(const JType& r) {
 	if (isnil()) // if this is empty
-		return LoxType{};
+		return JType{};
 	else if (r.isnil())
 		throw RunError("division by nil");
 	// double / double
@@ -245,10 +245,10 @@ LoxType LoxType::operator/(const LoxType& r) {
 		return get<string>(value) + "\n" + get<string>(r.value);
 	else // mismatched types
 		err->runErrorMBT();
-	return LoxType{};
+	return JType{};
 }
 // ^ : exponentiation
-LoxType LoxType::operator^(const LoxType& r) {
+JType JType::operator^(const JType& r) {
 	if (!holds_alternative<double>(value) ||
 		!holds_alternative<double>(r.value))
 		// no support for other types
@@ -258,15 +258,15 @@ LoxType LoxType::operator^(const LoxType& r) {
 
 // unary
 // - : negates numbers
-LoxType LoxType::operator-() {
+JType JType::operator-() {
 	if (holds_alternative<double>(value)) {
 		return -(get<double>(value));
 	} else // mismatched type
 		err->runErrorMUT();
-	return LoxType{};
+	return JType{};
 }
 // ! : works on numbers and bools
-bool LoxType::operator!() {
+bool JType::operator!() {
 	if (isnil())
 		return true;
 	else if (holds_alternative<string>(value))

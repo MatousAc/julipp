@@ -147,8 +147,8 @@
   <ItemGroup>
     <ClCompile Include="interpreter\Environment.cpp" />
     <ClCompile Include="interpreter\Interpreter.cpp" />
-    <ClCompile Include="interpreter\LoxFunction.cpp" />
-    <ClCompile Include="interpreter\LoxType.cpp" />
+    <ClCompile Include="interpreter\JFunction.cpp" />
+    <ClCompile Include="interpreter\JType.cpp" />
     <ClCompile Include="julipp.cpp" />
     <ClCompile Include="parser\Parser.cpp" />
     <ClCompile Include="scanner\LitVal.cpp" />
@@ -160,7 +160,7 @@
     <ClCompile Include="tools\AstPrinter.cpp" />
     <ClCompile Include="tools\generator.cpp" />
     <ClCompile Include="tools\helpers.cpp" />
-    <ClCompile Include="tools\LoxError.cpp" />
+    <ClCompile Include="tools\JError.cpp" />
     <ClCompile Include="tools\RPNPrinter.cpp" />
     <ClCompile Include="tools\tools.cpp" />
   </ItemGroup>
@@ -169,9 +169,9 @@
     <ClInclude Include="interpreter\ClockFunction.hpp" />
     <ClInclude Include="interpreter\Environment.h" />
     <ClInclude Include="interpreter\Interpreter.h" />
-    <ClInclude Include="interpreter\LoxCallable.h" />
-    <ClInclude Include="interpreter\LoxFunction.h" />
-    <ClInclude Include="interpreter\LoxType.h" />
+    <ClInclude Include="interpreter\JCallable.h" />
+    <ClInclude Include="interpreter\JFunction.h" />
+    <ClInclude Include="interpreter\JType.h" />
     <ClInclude Include="julipp.h" />
     <ClInclude Include="parser\Expr.hpp" />
     <ClInclude Include="parser\Parser.h" />
@@ -185,7 +185,7 @@
     <ClInclude Include="tools\AstPrinter.h" />
     <ClInclude Include="tools\generator.h" />
     <ClInclude Include="tools\helpers.h" />
-    <ClInclude Include="tools\LoxError.h" />
+    <ClInclude Include="tools\JError.h" />
     <ClInclude Include="tools\RPNPrinter.h" />
     <ClInclude Include="tools\tools.h" />
   </ItemGroup>
