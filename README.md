@@ -2,7 +2,7 @@
 ***
 I feel pretty confident in being able to implement things through chapter 9. What this specifically entails is:
 #### Expression Level
-[x] decimals can start as: 0.21 || .21
+[x] numberscan start as: 0.21 or .21
 [x] basic unary operators such as - and !
 [x] basic binary arithmetic operations
   [x] \+ \- \* / \ % ^
@@ -24,14 +24,9 @@ I feel pretty confident in being able to implement things through chapter 9. Wha
         * y3 # well, this is just a variable, guys
         * 3 y # no spaces!
 [ ] null value: there is a nil value - "nothing"
-[ ] Localiables
+[x] identifiers
   [x] *identifiers* can begin with "a-z", "A-Z", or ascii symbols such as "_" if that character is not otherwise used by the language (we're not using "#^-+=!@~" and such)
   [x] I won't allow access to purely underscore variables
-[ ] *scoping*
-  [ ] I plan to provide functionality of a global scope (with the lexical scoping that Julia is supposed to have) and soft local scopes
-  [ ] local variables can be declared using the **local** keyword or without it
-  [ ] variables can also be declared in the global scope using **global** anywhere a variable could regularly be declared
-  [ ] implicit variable declaration supported
 [ ] keywords: below is a list of julia's keywords. to keep in the spirit of the language, all of the keywords will be scanned, but while parsing, any keyword that is not supported will be reported as an error.
   [ ] **supported**: begin break continue do else elseif end false global if local true while
   [x] **not supported**: baremodule catch export finally for try using import let macro module quote struct
@@ -55,6 +50,13 @@ I feel pretty confident in being able to implement things through chapter 9. Wha
   [ ] you should be able to use break;
   [ ] you should be able to use continue;
 [x] I will support assignment
+[ ] *scoping*
+    * scoping in Julia is hellishly complicated and varies subtly based on which version of Julia you are using. I am implementing part of it based on what is explained throughout the various versions in the [docs](https://docs.julialang.org/en/v1/manual/variables-and-scoping/). Here I define what the rules of scoping are for my version of Julia (where I exclude hard scoping as detailed in my original project proposal).
+    * some form of local scopes tend to be present in loops, user-defined functions(hard scope in this case, so not being implemented), try-catch blocks (also not implemented), and structs (also not implemented)
+  [ ] begin and if by default do not make new scopes. variables declared in them are global by default. they can be forced to have a local variable using the *local* keyword
+  [ ] loops by default create local variables, in this context, the local keyword does nothing useful. global variables can be declared using the *global* keyword
+  [ ] I provide functionality of a global scope. a variable declared outside any construct that introduces a local scope (@ top level) will be global (duh).
+  [ ] implicit variable declaration is supported. this is where the default block-type behaviours set in.
 
 
 #### Strings
@@ -109,6 +111,8 @@ I feel pretty confident in being able to implement things through chapter 9. Wha
 * {} - matrix stuff
 * string interpolation (sounds too hard)
 * character literals - I just didn't think about this soon enough
+* ';' chains and compound expressions
+
 
 #### Stretch Goals
 [ ] Julia has bitwise logical operators such as &, |, and ~. I'd like to try to implement these.

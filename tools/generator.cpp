@@ -33,9 +33,9 @@ void generator(vector<string> args) {
 			"Expression	: Expr* expression",
 			"Function : Token name, vector<Token> params, vector<Stmt*> body",
 			"If : vector<Expr*> conditions, vector<Stmt*> thenBranches, Stmt* elseBranch",
+			"Local : Token name, Expr* initializer",
 			"Print : Expr* expression",
 			"Return : Token keyword, Expr* value",
-			"Local : Token name, Expr* initializer",
 			"While : Expr* condition, Stmt* body"
 		});
 }
