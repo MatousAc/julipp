@@ -55,14 +55,22 @@ I feel pretty confident in being able to implement things through chapter 9. Wha
   [ ] you should be able to use break;
   [ ] you should be able to use continue;
 [x] I will support assignment
- 
+
 
 #### Strings
-[ ] string escape characters
+[x] string escape characters
 [ ] string length built-in function
-[ ] string concatenation done with *
-[ ] multi-line strings with """
-[ ] string comparison with ==, !=, <, > etc.
+[x] string concatenation done with *
+    * "what's" * " up?" => "what's up?"
+[x] adding string - double multiplication and addition
+    * string * x => the string x times (after floor(x))
+    * "Ac " * 3 => "Ac Ac Ac "
+    * "hi" + 2 => "hi2"
+    * 12 + (" hi " + 8) => "12 hi 8"
+    * print "lo" * 6 * "l" => lolololololol
+[x] multi-line strings 
+[x] strings with """
+[x] string comparison with ==, !=, <, > etc.
 
 #### Functions
 \# as built-in functions:
@@ -99,6 +107,8 @@ I feel pretty confident in being able to implement things through chapter 9. Wha
 * bitwise
 * integer division
 * {} - matrix stuff
+* string interpolation (sounds too hard)
+* character literals - I just didn't think about this soon enough
 
 #### Stretch Goals
 [ ] Julia has bitwise logical operators such as &, |, and ~. I'd like to try to implement these.

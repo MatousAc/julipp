@@ -54,7 +54,8 @@ vector<Token> Scanner::scanTokens() {
 	while (!isDone()) {
 		start = current;
 		scanToken();
-	}
+	} // add a statend so code on last line will work
+	tokens.push_back(Token(STATEND, "", NULL, line));
 	tokens.push_back(Token(EoF, "", NULL, line));
 	return tokens;
 }
@@ -72,18 +73,11 @@ void Scanner::scanToken() {
 	case '*': addToken(STAR); break;
 	case '^': addToken(CARET); break;
 	case '%': addToken(MODULUS); break;
-	case '!': // two-character tokens
-		addToken(nextChar('=') ? BANG_EQUAL : BANG);
-		break;
-	case '=':
-		addToken(nextChar('=') ? EQUAL_EQUAL : EQUAL);
-		break;
-	case '<':
-		addToken(nextChar('=') ? LESS_EQUAL : LESS);
-		break;
-	case '>':
-		addToken(nextChar('=') ? GREATER_EQUAL : GREATER);
-		break;
+	// two-character tokens
+	case '!': addToken(nextChar('=') ? BANG_EQUAL : BANG); break;
+	case '=': addToken(nextChar('=') ? EQUAL_EQUAL : EQUAL); break;
+	case '<': addToken(nextChar('=') ? LESS_EQUAL : LESS); break;
+	case '>': addToken(nextChar('=') ? GREATER_EQUAL : GREATER); break;
 	case '/': addToken(FSLASH); break;
 	case '#': while (peek() != '\n' && !isDone()) next(); break;
 	case '|':
@@ -94,10 +88,9 @@ void Scanner::scanToken() {
 		if (nextChar('&')) addToken(AND);
 		else err->report(line, "Unsupported operator.", to_string(c));
 		break;
-	case ' ':
-	case '\r':
-	case '\t': break;
-	case '\n':addToken(STATEND); line++; break;
+	case ' ': case '\r': case '\t': break; // whitespace
+	case '\n':addToken(STATEND); line++; break; // newlines
+	case '\'': break; // addCharacterLiteral?
 	case '"': addString(); break;
 	case '(':
 		if (afterParen) addImpliedMultiply();
@@ -131,6 +124,11 @@ char Scanner::next() {
 	return source[current++];
 }
 
+char Scanner::advanceCurrentBy(int numChars) {
+	current += numChars;
+	return source[current];
+}
+
 char Scanner::peek() {
 	if (isDone()) return '\0';
 	return source[current];
@@ -141,6 +139,11 @@ char Scanner::peekNext() {
 	return source[current + 1];
 }
 
+char Scanner::peekBy(int numChars) {
+	if (current + numChars >= (int)source.length()) return '\0';
+	return source[current + numChars];
+}
+
 bool Scanner::nextChar(char c) {
 	if (isDone()) return false;
 	if (source[current] != c) return false;
@@ -148,17 +151,73 @@ bool Scanner::nextChar(char c) {
 	return true;
 }
 
+// based on this implementation by davka on SO
+// https://stackoverflow.com/a/5612287/14062356
+string unescape(const string& s)
+{
+	string res;
+	string::const_iterator it = s.begin();
+	while (it != s.end())
+	{
+		char c = *it++;
+		if (c == '\\' && it != s.end())
+		{
+			switch (*it++) {
+			case '\\': c = '\\'; break;
+			case 'n': c = '\n'; break;
+			case 't': c = '\t'; break;
+			case 'v': c = '\v'; break;
+			case 'b': c = '\b'; break;
+			case 'r': c = '\r'; break;
+			case '"': c = '\"'; break;
+			case '\'': c = '\''; break;
+				// all other escapes
+			default:
+				// invalid escape sequence - skip it.
+				continue;
+			}
+		}
+		res += c;
+	}
+
+	return res;
+}
+
 void Scanner::addString() {
-	while (peek() != '"' && !isDone()) {
+	// czech for """string"""
+	string str;
+
+	bool isTripleQuote = false;
+	int newLnWidth = (peekBy(2) == '\n'); // 0 or 1
+	if (peek() == '"' && peekNext() == '"') {
+		isTripleQuote = true;
+	}
+
+	while (true) {
+		if (isDone()) { // error if EoF
+			err->report(line, "unterminated string");
+			return;
+		} // end if """ (triple quote string)
+		else if (isTripleQuote && peek() == '"' &&
+			peekNext() == '"' && peekBy(2) == '"') {
+			advanceCurrentBy(3);
+			str = source.substr(start + 3 + newLnWidth,
+				((current - start) - 6 - newLnWidth));
+			break;
+		} // or single quote below:
+		else if (!isTripleQuote && peek() == '"' 
+			&& peekBy(-1) != '\\') {
+			next();
+			str = source.substr(start + 1, (current - start) - 2);
+			break;
+		}
+		
 		if (peek() == '\n') line++;
 		next();
 	}
-	if (isDone()) {
-		err->report(line, "unterminated string");
-		return;
-	}
-	next();
-	addToken(STRING, source.substr(start + 1, (current - start) - 2));
+
+	str = unescape(str);
+	addToken(STRING, str);
 }
 
 void Scanner::addNumber(bool inFractional) {

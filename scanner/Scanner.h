@@ -12,8 +12,10 @@ class Scanner {
 	void scanToken();
 	int isDone();
 	char next();
+	char advanceCurrentBy(int numChars);
 	char peek();
 	char peekNext();
+	char peekBy(int numChars);
 	bool nextChar(char c);
 	void addString(); // scans string literal
 	// scans a number literal

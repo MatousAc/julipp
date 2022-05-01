@@ -160,10 +160,10 @@ LoxType LoxType::operator+(const LoxType& r) {
 	else if (holds_alternative<double>(value) &&
 		holds_alternative<double>(r.value))
 		return get<double>(value) + get<double>(r.value);
-	// string + string
+	// string + string => RunError
 	else if (holds_alternative<string>(value) &&
 		holds_alternative<string>(r.value))
-		return get<string>(value) + get<string>(r.value);
+		throw RunError{ "No method to add strings. Use '*' for concatenation."};
 	// string + toString(double)
 	else if (holds_alternative<string>(value) &&
 		holds_alternative<double>(r.value))
@@ -221,6 +221,10 @@ LoxType LoxType::operator*(const LoxType& r) {
 	else if (holds_alternative<double>(value) &&
 		holds_alternative<string>(r.value))
 		return repeat(get<string>(r.value), (size_t)get<double>(value));
+	// string * string => concatenation
+	else if (holds_alternative<string>(value) &&
+		holds_alternative<string>(r.value))
+		return get<string>(value) + get<string>(r.value);
 	else // mismatched types
 		err->runErrorMBT();
 	return LoxType{};
