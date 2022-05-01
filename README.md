@@ -38,6 +38,7 @@ I feel pretty confident in being able to implement things through chapter 9. Wha
 [ ] function calling
   [ ] I plan to support passing parameters and calling on identifiers that are pre-defined by the language
   [ ] this includes **println()** or **round()** or other functions I have specified to support
+[x] comments using '#'
 
 #### Statement Level
 [x] ending

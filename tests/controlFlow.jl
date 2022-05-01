@@ -1,5 +1,5 @@
-var x = 12
-var y = 1.2
+local x = 12
+local y = 1.2
 
 if x + y > 14
 print "bigger than 14"

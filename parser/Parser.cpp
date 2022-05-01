@@ -44,6 +44,7 @@ Stmt* Parser::varDeclaration() {
 
 Stmt* Parser::statement() {
 	if (match({ STATEND })) return nullptr; // NoOp valid stmt
+	if (match({ BEGIN })) return block();
 	if (match({ BREAK })) return breakStatement();
 	/*if (match({ CASE })) throw pex(previous(),
 		"'case' must be inside switch statement");*/
@@ -57,7 +58,6 @@ Stmt* Parser::statement() {
 	if (match({ WHILE })) return whileStatement();
 	if (match({ IF })) return ifStatement();
 	if (match({ RETURN })) return returnStatement();
-	if (match({ BEGIN })) return block();
 	return expressionStatement();
 }
 
@@ -149,11 +149,9 @@ Stmt* Parser::forStatement() {
 //}
 
 Stmt* Parser::whileStatement() {
-	consume(LEFT_PAREN, "Expect '(' after 'while'.");
 	Expr* condition = expression();
-	consume(RIGHT_PAREN, "Expect ')' after condition.");
 	loopDepth++;
-	Stmt* body = statement();
+	Stmt* body = block();
 	loopDepth--;
 	return new While(condition, body);
 }
@@ -224,7 +222,9 @@ Block* Parser::ifBlock() {
 		!check(END) && !isAtEnd()) {
 		statements.push_back(declaration());
 	}
-
+	// we don't consume the end of scope here
+	// cause we may need it depending on what 
+	// it is
 	return new Block(statements);
 }
 

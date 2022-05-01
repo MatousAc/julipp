@@ -84,11 +84,8 @@ void Scanner::scanToken() {
 	case '>':
 		addToken(nextChar('=') ? GREATER_EQUAL : GREATER);
 		break;
-	case '/':
-		if (nextChar('/'))
-			while (peek() != '\n' && !isDone()) next();
-		else addToken(FSLASH);
-		break;
+	case '/': addToken(FSLASH); break;
+	case '#': while (peek() != '\n' && !isDone()) next(); break;
 	case '|':
 		if (nextChar('|')) addToken(OR);
 		else err->report(line, "Unsupported operator.", to_string(c));
