@@ -44,7 +44,7 @@ string JType::type() const {
 	else if (holds_alternative<string>(value))
 		res = "string";
 	else if (holds_alternative<double>(value)) {
-		res = "double";
+		res = "number";
 	}
 	else if (holds_alternative<bool>(value)) {
 		res = "bool";

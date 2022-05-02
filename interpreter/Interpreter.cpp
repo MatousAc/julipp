@@ -5,6 +5,7 @@
 #include "../functions/JFunction.h"
 #include "../tools/helpers.h"
 #include "../functions/String.hpp"
+#include "../functions/Math.hpp"
 
 // protos
 struct BreakExcept;
@@ -18,6 +19,11 @@ Interpreter::Interpreter() :
 	curToken{ EoF, "start", NULL, -1 } {
 	// default functions
 	globals->define(GLOBAL, "strlen", new StringLen{});
+	globals->define(GLOBAL, "sqrt", new Sqrt{});
+	globals->define(GLOBAL, "abs", new Abs{});
+	globals->define(GLOBAL, "floor", new Floor{});
+	globals->define(GLOBAL, "ceil", new Ceil{});
+	globals->define(GLOBAL, "round", new Round{});
 };
 
 void Interpreter::interpret(vector<Stmt*> statements) {

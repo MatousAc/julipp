@@ -81,14 +81,14 @@ I feel pretty confident in being able to implement things through chapter 9. Wha
 [ ] print(...) # prints it's input as a string to the console
 [ ] println(...) # println gives a new line after it prints
 [ ] readline() # this is meant to be CLI input. it takes a line of user input and returns it as a string (including the newline)  
+[.] Nothing() # returns nothing
 
 \# we aren't focusing on built-in math functions, but I'd like to implement these:
-[ ] round(number) # rounds the number to an integer (but is still of type double internally)
-[ ] floor(number) # basically truncates a double 
-[ ] ceil(number) # rounds up
-[ ] abs(number) # returns the absolute value of the number that's passed in
-[ ] sqrt(number) # returns the square root of the number that's passed in
-[ ] Nothing() # returns nothing
+[x] round(number) # rounds the number to an integer (but is still of type double internally)
+[x] floor(number) # basically truncates a double 
+[x] ceil(number) # rounds up
+[x] abs(number) # returns the absolute value of the number that's passed in
+[x] sqrt(number) # returns the square root of the number that's passed in
 
 
 ### Specifically Excluding

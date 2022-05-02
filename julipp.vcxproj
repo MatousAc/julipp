@@ -165,6 +165,10 @@
     <ClCompile Include="tools\tools.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="functions\print.hpp" />
+    <ClInclude Include="functions\println.hpp" />
+    <ClInclude Include="functions\readline.hpp" />
+    <ClInclude Include="functions\Math.hpp" />
     <ClInclude Include="functions\String.hpp" />
     <ClInclude Include="functions\JFunction.h" />
     <ClInclude Include="include.h" />
