@@ -5,21 +5,21 @@
 // we forward declare the callable here rather than 
 // including it because that causes thousands of errors
 struct JCallable;
-//struct LoxFunction;
+struct nothing {};
 
 struct JType {
-	variant<
+	variant <
 		monostate,
 		string, double, bool,
-		JCallable*
-		//LoxFunction*
+		JCallable*,
+		nothing
 	> value;
 	JType();
 	JType(string str);
+	JType(nothing n);
 	JType(double dbl);
 	JType(bool bl);
 	JType(JCallable* callable);
-	//LoxType(LoxFunction* function);
 	bool isnil() const;
 	bool isTruthy() const;
 	bool isInt() const;

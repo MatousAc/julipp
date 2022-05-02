@@ -1,8 +1,6 @@
 #pragma once
-#include <chrono>
 #include <cmath>
 #include "../interpreter/JCallable.h"
-using namespace std::chrono;
 
 struct Sqrt : JCallable {
 	int arity() override { return 1; }

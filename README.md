@@ -23,7 +23,7 @@ I feel pretty confident in being able to implement things through chapter 9. Wha
         * y(3) # cannot call this (in both implementations)
         * y3 # well, this is just a variable, guys
         * 3 y # no spaces!
-- [ ] null value: there is a nil value - "nothing"
+- [x] null value: there is a nil value in julia called "nothing". the other null (uninitialized variables) is treated as no value at all (errors)
 - [x] identifiers
   - [x] *identifiers* can begin with "a-z", "A-Z", or ascii symbols such as "_" if that character is not otherwise used by the language (we're not using "#^-+=!@~" and such)
   - [x] I won't allow access to purely underscore variables
@@ -60,7 +60,6 @@ I feel pretty confident in being able to implement things through chapter 9. Wha
   - [ ] implicit variable declaration is supported. this is where the default block-type behaviours set in.
     * in light of inconsistent scoping across Julia versions and even the repl and file execution, I have decided to expand/simplify the shadowing rules in my implementation. Local variables shadow variables in outer scopes (such as the global scope). global variables in inner scopes rewrite locals in outer scopes.
 
-
 #### Strings
 - [x] string escape characters
 - [x] string length built-in function
@@ -78,11 +77,11 @@ I feel pretty confident in being able to implement things through chapter 9. Wha
 
 #### Functions
 \# as built-in functions:
-- [x] print(...) # prints it's input as a string to the console
-- [x] println(...) # println gives a new line after it prints
+- [x] print(...) # prints it's input as a string to the console, takes up to 255 arguments
+- [x] println(...) # println gives a new line after it prints, takes up to 255 arguments
 - [x] readline() # this is meant to be CLI input. it takes a line of user input and returns it as a string (including the newline)  
-- [ ] parseint(string) # returns a number if the string can be parsed. otherwise throws RunError
-- [ ] Nothing() # returns nothing
+- [x] parsenum(string) # returns a number if the string can be parsed. otherwise throws error
+- [x] Nothing() # returns nothing
 
 \# we aren't focusing on built-in math functions, but I'd like to implement these:
 - [x] round(number) # rounds the number to an integer (but is still of type double internally)

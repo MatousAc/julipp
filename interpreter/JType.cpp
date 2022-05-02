@@ -5,6 +5,8 @@
 
 // various constructors
 JType::JType() {}
+JType::JType(nothing n)
+	: value{ n } {}
 JType::JType(string str)
 	: value{ str } {}
 JType::JType(double dbl)
@@ -43,18 +45,16 @@ string JType::type() const {
 		res = "nil";
 	else if (holds_alternative<string>(value))
 		res = "string";
-	else if (holds_alternative<double>(value)) {
+	else if (holds_alternative<double>(value))
 		res = "number";
-	}
-	else if (holds_alternative<bool>(value)) {
+	else if (holds_alternative<bool>(value))
 		res = "bool";
-	}
-	else if (holds_alternative<JCallable*>(value)) {
+	else if (holds_alternative<JCallable*>(value))
 		res = "LoxCallable*";
-	}
-	else if (holds_alternative<monostate>(value)) {
+	else if (holds_alternative<nothing>(value))
+		res = "nothing";
+	else if (holds_alternative<monostate>(value))
 		res = "nil";
-	}
 	return res;
 }
 
@@ -62,6 +62,8 @@ string JType::toString() const {
 	string res;
 	if (isnil())
 		res = "nil";
+	else if (holds_alternative<nothing>(value))
+		res = "nothing";
 	else if (holds_alternative<string>(value))
 		res = get<string>(value);
 	else if (holds_alternative<double>(value))

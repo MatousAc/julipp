@@ -1,7 +1,5 @@
 #pragma once
-#include <chrono>
 #include "../interpreter/JCallable.h"
-using namespace std::chrono;
 
 struct Print : JCallable {
 	int arity() override { return 1; }

@@ -8,6 +8,7 @@
 #include "../functions/Math.hpp"
 #include "../functions/Print.hpp"
 #include "../functions/ReadLine.hpp"
+#include "../functions/Nothing.hpp"
 
 // protos
 struct BreakExcept;
@@ -30,6 +31,7 @@ Interpreter::Interpreter() :
 	globals->define(GLOBAL, "println", new PrintLn{});
 	globals->define(GLOBAL, "readline", new ReadLine{});
 	globals->define(GLOBAL, "parsenum", new ParseNum{});
+	globals->define(GLOBAL, "Nothing", new Nothing{});
 };
 
 void Interpreter::interpret(vector<Stmt*> statements) {
@@ -239,6 +241,8 @@ void Interpreter::visitVariable(const Variable* expression) {
 		err->handleRunError(RunError{ 
 		"all-underscore identifier used as rvalue" });
 	result = environment->grab(expression->name);
+	if (result.isnil()) throw RunError(expression->name,
+		"Variable has not been initilized.");
 }
 
 // helpers
