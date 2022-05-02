@@ -10,7 +10,7 @@ struct StringLen : JCallable {
 		if (val.type() != "string") throw RunError(
 			interpreter->curToken, // line number reporting
 			"strlen only takes one string as it's argument"); //msg
-		string str = get<string>(arguments[0].value);
+		string str = get<string>(val.value);
 		return JType{ (double)str.length() };
 	}
 	string toString() { return "strlen(string)"; }

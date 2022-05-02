@@ -1,14 +1,14 @@
-print "
+println("
 multi
 line?
-"
+")
 
-print "hi" * " bye"
-print "lo" * 6 * "l"
+println("hi" * " bye")
+println("lo" * 6 * "l")
 
-print("hi" != "h")
-print("hi" == "hi")
-print("" + 4 + 3 == "43")
+println("hi" != "h")
+println("hi" == "hi")
+println("" + 4 + 3 == "43")
 
 local ml1 = "a
 string here"
@@ -16,9 +16,9 @@ string here"
 local ml2 = "a
 string here"
 
-print(ml1 == ml2)
+println(ml1 == ml2)
 
-print("hey" < "hi"); print("hey" > "hi")
+println("hey" < "hi"); println("hey" > "hi")
 
 
 local tripleQuoted = """
@@ -27,8 +27,8 @@ instead of the regular two double quotes \n-> ""
 is because is can easily print " or "" using
 triple quotes;
 """
-print(tripleQuoted)
-print("\\.\t.\n.\b.\n\'\v.\"")
+println(tripleQuoted)
+println("\\.\t.\n.\b.\n\'\v.\"")
 
 local testStr = "string\r" * "just erased" * "\nright?"
-print(testStr * "\b.\ngreat.\n\"it\" worked!")
+println(testStr * "\b.\ngreat.\n\"it\" worked!")

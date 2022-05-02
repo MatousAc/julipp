@@ -3,16 +3,25 @@
 #include "../interpreter/JCallable.h"
 using namespace std::chrono;
 
-struct StringLen : JCallable {
+struct Print : JCallable {
 	int arity() override { return 1; }
 	JType call(Interpreter* interpreter, vector<JType> arguments) {
-		JType val = arguments[0];
-		if (val.type() != "string") throw RunError(
-			interpreter->curToken, // line number reporting
-			"strlen only takes one string as it's argument"); //msg
-		string str = get<string>(arguments[0].value);
-		return JType{ (double)str.length() };
+		for (JType arg : arguments)
+			cout << arg.toString();
+		return JType{};
 	}
-	string toString() { return "strlen(string)"; }
-	StringLen() {};
+	string toString() { return "print(...)"; }
+	Print() {};
+};
+
+struct PrintLn : JCallable {
+	int arity() override { return 1; }
+	JType call(Interpreter* interpreter, vector<JType> arguments) {
+		for (JType arg : arguments)
+			cout << arg.toString();
+		cout << endl; // print newline
+		return JType{};
+	}
+	string toString() { return "println(...)"; }
+	PrintLn() {};
 };

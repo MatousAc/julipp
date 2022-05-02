@@ -7,16 +7,16 @@ begin
   local b = "outer b"
   begin
     local a = "inner a"
-    print a
-    print b
-    print c
-    print c = "new global c"
+    println(a)
+    println(b)
+    println(c)
+    println(c = "new global c")
   end
-  print a
-  print b
-  print c
+  println(a)
+  println(b)
+  println(c)
 end
-print a
-print b
-print c
+println(a)
+println(b)
+println(c)
 

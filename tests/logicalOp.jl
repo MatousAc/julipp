@@ -1,26 +1,26 @@
-var T = true
-var F = false
+T = true
+F = false
 
 if T || F
-print "T or F is true"
+println("T or F is true")
 else
-print "T or F is false"
+println("T or F is false")
 end
-print "after end"
+println("after end")
 
-print F && F
-print T || T
-print T && F
-print F || T
+println(F && F)
+println(T || T)
+println(T && F)
+println(F || T)
 
-var mut = "original"
-print mut
+mut = "original"
+println(mut)
 T || (mut = "new")
-print mut
+println(mut)
 F && (mut = "newer")
-print mut
+println(mut)
 F && (mut = "newer")
-print mut
+println(mut)
 T && (mut = "newest")
-print mut
+println(mut)
 

@@ -9,7 +9,6 @@ struct Exit;
 struct Expression;
 struct Function;
 struct If;
-struct Print;
 struct Return;
 struct While;
 
@@ -22,7 +21,6 @@ struct StmtVisitor {
     virtual void visitExpression(const Expression* stmt) = 0;
     virtual void visitFunction(const Function* stmt) = 0;
     virtual void visitIf(const If* stmt) = 0;
-    virtual void visitPrint(const Print* stmt) = 0;
     virtual void visitReturn(const Return* stmt) = 0;
     virtual void visitWhile(const While* stmt) = 0;
 };
@@ -114,17 +112,6 @@ struct If : Stmt {
 
     void accept(StmtVisitor* visitor) override {
         visitor->visitIf(this);
-    }
-};
-
-struct Print : Stmt {
-    Expr* expression;
-
-    Print(Expr* expression)
-        :expression{ expression } {}
-
-    void accept(StmtVisitor* visitor) override {
-        visitor->visitPrint(this);
     }
 };
 

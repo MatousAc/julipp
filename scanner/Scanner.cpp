@@ -26,7 +26,6 @@ Scanner::Scanner(string source)
 	keywords["if"] = IF;
 	keywords["local"] = LOCAL;
 	keywords["nil"] = NIL;
-	keywords["print"] = PRINT;
 	keywords["return"] = RETURN;
 	keywords["super"] = SUPER;
 	keywords["switch"] = SWITCH;

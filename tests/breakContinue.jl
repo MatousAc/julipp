@@ -2,7 +2,7 @@ a = 0; global temp
 
 b = 1
 while true
-  print a
+  println(a)
   temp = a
   a = b
 	b = temp + b
@@ -18,6 +18,6 @@ while count != 0
 	if count > 9
 		continue
 	end
-	print count
+	println(count)
 end
-print "Blastoff" / ""
+println("Blastoff" / "")

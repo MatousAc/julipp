@@ -30,7 +30,7 @@ private:
 	virtual void visitExpression(const Expression* statement) override;
 	virtual void visitFunction(const Function* statement) override;
 	virtual void visitIf(const If* statement) override;
-	virtual void visitPrint(const Print* statement) override;
+	//virtual void visitPrint(const Print* statement) override;
 	virtual void visitReturn(const Return* statement) override;
 	virtual void visitDeclare(const Declare* statement) override;
 	virtual void visitWhile(const While* statement) override;
@@ -46,6 +46,7 @@ private:
 	virtual void visitVariable(const Variable* expression) override;	
 	// helpers
 	bool isUnderscores(string s);
+	bool takesVariableArgs(JCallable* function);
 };
 
 struct BreakExcept : public runtime_error {

@@ -1,44 +1,44 @@
 # strlen
-print("strlen")
-print strlen("hey")
+println("strlen")
+println(strlen("hey"))
 global str = """
 We've got
 ourselves a 
 string!!!"""
-print strlen(str)
+println(strlen(str))
 another = "string" + 223
-print strlen(str * another + 3)
-# print strlen(78) # error
+println(strlen(str * another + 3))
+# println strlen(78) # error
 
 # sqrt
-print("sqrt")
-print(sqrt(36))
-print(sqrt(12.1))
-# print(sqrt("str")) # antoher error
+println("sqrt")
+println(sqrt(36))
+println(sqrt(12.1))
+# println(sqrt("str")) # antoher error
 
 # abs
-print("abs")
-print(abs(2.2))
-print(abs(-18.13))
-# print(abs("a string")) # err
+println("abs")
+println(abs(2.2))
+println(abs(-18.13))
+# println(abs("a string")) # err
 
 # floor
-print("floor")
-print(floor(sqrt(31)))
-print(floor(-34.3))
-# print(floor()) # err
+println("floor")
+println(floor(sqrt(31)))
+println(floor(-34.3))
+# println(floor()) # err
 
 # ceil
-print("ceil")
-print(ceil(sqrt(31)))
-print(ceil(-34.3))
-print(ceil(2.2))
+println("ceil")
+println(ceil(sqrt(31)))
+println(ceil(-34.3))
+println(ceil(2.2))
 
 # round
-print("round")
-print(round(sqrt(31)))
-print(round(-34.5))
-print(round(2.6))
-print(round(8.4))
+println("round")
+println(round(sqrt(31)))
+println(round(-34.5))
+println(round(2.6))
+println(round(8.4))
 
 

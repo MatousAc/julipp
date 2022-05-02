@@ -54,7 +54,6 @@ Stmt* Parser::statement() {
 	if (match({ DEFAULT })) throw pex(previous(),
 		"'default' must be inside switch statement");
 	if (match({ EXIT })) return exitStatement();
-	if (match({ PRINT })) return printStatement();
 	//if (match({ SWITCH })) return switchStatement();
 	if (match({ WHILE })) return whileStatement();
 	if (match({ IF })) return ifStatement();
@@ -142,12 +141,6 @@ Stmt* Parser::ifStatement() {
 	}
 	nest.pop_back();
 	return new If(conditions, thenBranches, elseBranch);
-}
-
-Stmt* Parser::printStatement() {
-	Expr* value = expression();
-	consume(STATEND, "Expect ';' or end of line after value.");
-	return new Print(value);
 }
 
 Stmt* Parser::expressionStatement() {
@@ -481,7 +474,6 @@ void Parser::synchronize() {
 		case LOCAL:
 		case FOR:
 		case IF:
-		case PRINT:
 		case RETURN:
 		case SWITCH:
 		case WHILE:

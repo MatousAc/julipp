@@ -6,6 +6,7 @@
 #include "../tools/helpers.h"
 #include "../functions/String.hpp"
 #include "../functions/Math.hpp"
+#include "../functions/Print.hpp"
 
 // protos
 struct BreakExcept;
@@ -24,6 +25,8 @@ Interpreter::Interpreter() :
 	globals->define(GLOBAL, "floor", new Floor{});
 	globals->define(GLOBAL, "ceil", new Ceil{});
 	globals->define(GLOBAL, "round", new Round{});
+	globals->define(GLOBAL, "print", new Print{});
+	globals->define(GLOBAL, "println", new PrintLn{});
 };
 
 void Interpreter::interpret(vector<Stmt*> statements) {
@@ -115,11 +118,6 @@ void Interpreter::visitReturn(const Return* statement) {
 	}
 	throw ReturnExcept(value);
 }
-void Interpreter::visitPrint(const Print* statement) {
-	evaluate(statement->expression);
-	JType value = getResult();
-	cout << value.toString() << endl;
-}
 void Interpreter::visitDeclare(const Declare* statement) {
 	JType value{};
 	if (statement->initializer != NULL) {
@@ -185,7 +183,8 @@ void Interpreter::visitCall(const Call* expression) {
 	}
 
 	JCallable* function = get<JCallable*>(callee.value);
-	if (arguments.size() != function->arity()) {
+	if (arguments.size() != function->arity() || 
+		takesVariableArgs(function)) {
 	throw RunError(expression->paren, "Expected " +
 		to_string(function->arity()) + " arguments but got " +
 		to_string(arguments.size()) + ".");
@@ -239,10 +238,17 @@ void Interpreter::visitVariable(const Variable* expression) {
 	result = environment->grab(expression->name);
 }
 
+// helpers
 bool Interpreter::isUnderscores(string s) {
 	for (char const& c : s)
 		if (c != '_') return false;
 	return true;
+}
+bool Interpreter::takesVariableArgs(JCallable* function) {
+	string name = function->toString();
+	int pos = name.find("(");
+	string args = name.substr(pos + 1, name.length() - 2);
+	return args == "...";
 }
 
 // exceptions

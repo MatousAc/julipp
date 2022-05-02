@@ -4,5 +4,5 @@ i = i - 1
 if i == 0
 break
 end
-print(i)
+println(i)
 end
