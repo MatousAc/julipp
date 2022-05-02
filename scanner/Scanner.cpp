@@ -15,7 +15,7 @@ Scanner::Scanner(string source)
 	keywords["break"] = BREAK;
 	keywords["case"] = CASE;
 	keywords["continue"] = CONTINUE;
-	keywords["do"] = DO;
+	keywords["do"] = STATEND;
 	keywords["default"] = DEFAULT;
 	keywords["else"] = ELSE;
 	keywords["elseif"] = ELSEIF;

@@ -2,9 +2,9 @@
 #include "Interpreter.h"
 #include "../tools/JError.h"
 #include "JCallable.h"
-#include "JFunction.h"
+#include "../functions/JFunction.h"
 #include "../tools/helpers.h"
-#include "ClockFunction.hpp"
+#include "../functions/String.hpp"
 
 // protos
 struct BreakExcept;
@@ -16,7 +16,8 @@ Interpreter::Interpreter() :
 	globals{ new Environment{} },
 	environment{ this->globals },
 	curToken{ EoF, "start", NULL, -1 } {
-	globals->define(GLOBAL, "clock", new ClockFunction{});
+	// default functions
+	globals->define(GLOBAL, "strlen", new StringLen{});
 };
 
 void Interpreter::interpret(vector<Stmt*> statements) {
@@ -169,9 +170,6 @@ void Interpreter::visitCall(const Call* expression) {
 	vector<JType> arguments{};
 	for (auto argument : expression->arguments) {
 		evaluate(argument);
-		if (getResult() < JType{ 0.0 }) {
-			evaluate(argument);
-		}
 		arguments.push_back(getResult());
 	}
 

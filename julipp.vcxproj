@@ -145,9 +145,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="functions\JFunction.cpp" />
     <ClCompile Include="interpreter\Environment.cpp" />
     <ClCompile Include="interpreter\Interpreter.cpp" />
-    <ClCompile Include="interpreter\JFunction.cpp" />
     <ClCompile Include="interpreter\JType.cpp" />
     <ClCompile Include="julipp.cpp" />
     <ClCompile Include="parser\Parser.cpp" />
@@ -165,12 +165,12 @@
     <ClCompile Include="tools\tools.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="functions\String.hpp" />
+    <ClInclude Include="functions\JFunction.h" />
     <ClInclude Include="include.h" />
-    <ClInclude Include="interpreter\ClockFunction.hpp" />
     <ClInclude Include="interpreter\Environment.h" />
     <ClInclude Include="interpreter\Interpreter.h" />
     <ClInclude Include="interpreter\JCallable.h" />
-    <ClInclude Include="interpreter\JFunction.h" />
     <ClInclude Include="interpreter\JType.h" />
     <ClInclude Include="julipp.h" />
     <ClInclude Include="parser\Expr.hpp" />

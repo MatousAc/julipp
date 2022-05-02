@@ -24,9 +24,6 @@
     <ClCompile Include="interpreter\Interpreter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="interpreter\JFunction.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="interpreter\JType.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -69,15 +66,15 @@
     <ClCompile Include="tools\tools.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="functions\JFunction.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="julipp.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="interpreter\ClockFunction.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="interpreter\Environment.h">
@@ -87,9 +84,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="interpreter\JCallable.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="interpreter\JFunction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="interpreter\JType.h">
@@ -138,6 +132,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="tools\tools.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="functions\String.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="functions\JFunction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

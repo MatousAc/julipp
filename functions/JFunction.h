@@ -1,8 +1,8 @@
 #pragma once
 #include "../include.h"
 #include "../parser/Stmt.hpp"
-#include "Interpreter.h"
-#include "JCallable.h"
+#include "../interpreter/Interpreter.h"
+#include "../interpreter/JCallable.h"
 
 struct JFunction : JCallable {
 	Function* declaration;

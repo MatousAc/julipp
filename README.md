@@ -23,7 +23,7 @@ I feel pretty confident in being able to implement things through chapter 9. Wha
         * y(3) # cannot call this (in both implementations)
         * y3 # well, this is just a variable, guys
         * 3 y # no spaces!
-[ ] null value: there is a nil value - "nothing"
+[.] null value: there is a nil value - "nothing"
 [x] identifiers
   [x] *identifiers* can begin with "a-z", "A-Z", or ascii symbols such as "_" if that character is not otherwise used by the language (we're not using "#^-+=!@~" and such)
   [x] I won't allow access to purely underscore variables
@@ -40,6 +40,7 @@ I feel pretty confident in being able to implement things through chapter 9. Wha
   [x] \n will matter. newlines can end statements
   [x] semicolons can end a statement too
     [x] indentation does not matter
+  [x] the *do* keyword can basically be used as a quick expression ender
 [x] control flow: **if**
   [x] I will support julia's if-else statements
   [x] I also plan to support the intermediate *elseif* statement(s)

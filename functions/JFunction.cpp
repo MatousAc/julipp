@@ -1,5 +1,5 @@
 #include "JFunction.h"
-#include "JType.h"
+#include "../interpreter/JType.h"
 
 struct ReturnExcept;
 

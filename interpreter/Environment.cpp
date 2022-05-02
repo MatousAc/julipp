@@ -48,7 +48,7 @@ JType Environment::grab(Token name) {
 }
 
 bool Environment::isGlobal() { 
-	return values.find("clock") != values.end();
+	return values.find("strlen") != values.end();
 }
 
 void Environment::dump() {

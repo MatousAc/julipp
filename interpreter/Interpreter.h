@@ -13,11 +13,11 @@ public:
 	// these two are for LoxFunction to use
 	void executeBlock(vector<Stmt*> statements, Environment* environment);
 	Environment* globals;
+	Token curToken; // for error reporting
 
 private:
 	JType result;
 	Environment* environment;
-	Token curToken; // for error reporting
 
 	void execute(Stmt* stmt);
 	void evaluate(Expr* expression);

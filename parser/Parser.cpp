@@ -128,8 +128,8 @@ Stmt* Parser::whileStatement() {
 
 Stmt* Parser::ifStatement() {
 	nest.push_back(IF);
-	vector<Expr*> conditions{};// = expression();
-	vector<Stmt*> thenBranches{};// = ifBlock();
+	vector<Expr*> conditions{};
+	vector<Stmt*> thenBranches{};
 	do  {
 		conditions.push_back(expression());
 		thenBranches.push_back(ifBlock());

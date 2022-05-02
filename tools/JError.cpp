@@ -43,6 +43,6 @@ RunError JError::runErrorMBT() {
 
 void JError::handleRunError(RunError error) {
 	cout << error.message + "\n[line "
-		+ to_string(error.token.line) + "] ";
+		+ to_string(error.token.line) + "]\n";
 	hadRunError = true;
 }
