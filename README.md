@@ -80,7 +80,8 @@ I feel pretty confident in being able to implement things through chapter 9. Wha
 \# as built-in functions:
 - [x] print(...) # prints it's input as a string to the console
 - [x] println(...) # println gives a new line after it prints
-- [ ] readline() # this is meant to be CLI input. it takes a line of user input and returns it as a string (including the newline)  
+- [x] readline() # this is meant to be CLI input. it takes a line of user input and returns it as a string (including the newline)  
+- [ ] parseint(string) # returns a number if the string can be parsed. otherwise throws RunError
 - [ ] Nothing() # returns nothing
 
 \# we aren't focusing on built-in math functions, but I'd like to implement these:

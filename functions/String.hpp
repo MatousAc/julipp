@@ -1,7 +1,6 @@
 #pragma once
-#include <chrono>
+#include <string>
 #include "../interpreter/JCallable.h"
-using namespace std::chrono;
 
 struct StringLen : JCallable {
 	int arity() override { return 1; }
@@ -15,4 +14,17 @@ struct StringLen : JCallable {
 	}
 	string toString() { return "strlen(string)"; }
 	StringLen() {};
+};
+
+struct ParseNum : JCallable {
+	int arity() override { return 1; }
+	JType call(Interpreter* interpreter, vector<JType> arguments) {
+		JType val = arguments[0];
+		if (val.type() != "string") throw RunError(
+			interpreter->curToken,
+			"parseNum only takes one string as it's argument");
+		return JType{ std::stod(get<string>(val.value)) };
+	}
+	string toString() { return "parseNum(string)"; }
+	ParseNum() {};
 };

@@ -29,6 +29,7 @@ Interpreter::Interpreter() :
 	globals->define(GLOBAL, "print", new Print{});
 	globals->define(GLOBAL, "println", new PrintLn{});
 	globals->define(GLOBAL, "readline", new ReadLine{});
+	globals->define(GLOBAL, "parsenum", new ParseNum{});
 };
 
 void Interpreter::interpret(vector<Stmt*> statements) {
@@ -185,8 +186,8 @@ void Interpreter::visitCall(const Call* expression) {
 	}
 
 	JCallable* function = get<JCallable*>(callee.value);
-	if (arguments.size() != function->arity() || 
-		takesVariableArgs(function)) {
+	if (arguments.size() != function->arity() && 
+		!takesVariableArgs(function)) {
 	throw RunError(expression->paren, "Expected " +
 		to_string(function->arity()) + " arguments but got " +
 		to_string(arguments.size()) + ".");
@@ -250,7 +251,7 @@ bool Interpreter::takesVariableArgs(JCallable* function) {
 	string name = function->toString();
 	int pos = name.find("(");
 	string args = name.substr(pos + 1, name.length() - 2);
-	return args == "...";
+	return strcmp(args.c_str(), "...");
 }
 
 // exceptions
