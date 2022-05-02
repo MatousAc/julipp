@@ -7,6 +7,7 @@
 #include "../functions/String.hpp"
 #include "../functions/Math.hpp"
 #include "../functions/Print.hpp"
+#include "../functions/ReadLine.hpp"
 
 // protos
 struct BreakExcept;
@@ -27,6 +28,7 @@ Interpreter::Interpreter() :
 	globals->define(GLOBAL, "round", new Round{});
 	globals->define(GLOBAL, "print", new Print{});
 	globals->define(GLOBAL, "println", new PrintLn{});
+	globals->define(GLOBAL, "readline", new ReadLine{});
 };
 
 void Interpreter::interpret(vector<Stmt*> statements) {

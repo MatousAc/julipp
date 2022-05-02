@@ -143,10 +143,7 @@
     <ClInclude Include="functions\print.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="functions\println.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="functions\readline.hpp">
+    <ClInclude Include="functions\ReadLine.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="functions\Math.hpp">
