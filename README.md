@@ -30,9 +30,9 @@ I feel pretty confident in being able to implement things through chapter 9. Wha
 [ ] keywords: below is a list of julia's keywords. to keep in the spirit of the language, all of the keywords will be scanned, but while parsing, any keyword that is not supported will be reported as an error.
   [ ] **supported**: begin break continue do else elseif end false global if local true while
   [x] **not supported**: baremodule catch export finally for try using import let macro module quote struct
-[ ] function calling
-  [ ] I plan to support passing parameters and calling on identifiers that are pre-defined by the language
-  [ ] this includes **println()** or **round()** or other functions I have specified to support
+[x] function calling
+  [x] I plan to support passing parameters and calling on identifiers that are pre-defined by the language
+  [x] this includes **println()** or **round()** or other functions I have specified to support
 [x] comments using '#'
 
 #### Statement Level
@@ -63,7 +63,7 @@ I feel pretty confident in being able to implement things through chapter 9. Wha
 
 #### Strings
 [x] string escape characters
-[ ] string length built-in function
+[x] string length built-in function
 [x] string concatenation done with *
     * "what's" * " up?" => "what's up?"
 [x] adding string - double multiplication and addition
@@ -78,8 +78,8 @@ I feel pretty confident in being able to implement things through chapter 9. Wha
 
 #### Functions
 \# as built-in functions:
-[ ] print(...) # prints it's input as a string to the console
-[ ] println(...) # println gives a new line after it prints
+[x] print(...) # prints it's input as a string to the console
+[x] println(...) # println gives a new line after it prints
 [ ] readline() # this is meant to be CLI input. it takes a line of user input and returns it as a string (including the newline)  
 [.] Nothing() # returns nothing
 
