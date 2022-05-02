@@ -16,7 +16,7 @@ Interpreter::Interpreter() :
 	globals{ new Environment{} },
 	environment{ this->globals },
 	curToken{ EoF, "start", NULL, -1 } {
-	globals->define("clock", new ClockFunction{});
+	globals->define(GLOBAL, "clock", new ClockFunction{});
 };
 
 void Interpreter::interpret(vector<Stmt*> statements) {
@@ -84,7 +84,7 @@ void Interpreter::visitFunction(const Function* statement) {
 		statement->params, // cause of the const constraints
 		statement->body
 		) } };
-	environment->define(statement->name.lexeme, JType{ function });
+	environment->define(LOCAL, statement->name.lexeme, JType{ function });
 }
 void Interpreter::visitIf(const If* statement) {
 	int i = 0;
@@ -113,13 +113,13 @@ void Interpreter::visitPrint(const Print* statement) {
 	JType value = getResult();
 	cout << value.toString() << endl;
 }
-void Interpreter::visitLocal(const Local* statement) {
+void Interpreter::visitDeclare(const Declare* statement) {
 	JType value{};
 	if (statement->initializer != NULL) {
 		evaluate(statement->initializer);
 		value = getResult();
 	}
-	environment->define(statement->name.lexeme , value);
+	environment->define(statement->scope, statement->name.lexeme , value);
 }
 void Interpreter::visitWhile(const While* statement) {
 	evaluate(statement->condition); // eval condition

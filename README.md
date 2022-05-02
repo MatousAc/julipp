@@ -57,7 +57,7 @@ I feel pretty confident in being able to implement things through chapter 9. Wha
   [ ] loops by default create local variables, in this context, the local keyword does nothing useful. global variables can be declared using the *global* keyword
   [ ] I provide functionality of a global scope. a variable declared outside any construct that introduces a local scope (@ top level) will be global (duh).
   [ ] implicit variable declaration is supported. this is where the default block-type behaviours set in.
-
+    * in light of inconsistent scoping across Julia versions and even the repl and file execution, I have decided to expand/simplify the shadowing rules in my implementation. Local variables can shadow variables in outer scopes (such as the global scope).
 
 #### Strings
 [x] string escape characters

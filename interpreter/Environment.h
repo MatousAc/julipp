@@ -11,7 +11,7 @@ struct Environment {
 
 	Environment* enclosing;
 	Environment(Environment* enclosing = nullptr);
-	void define(string name, JType value);
+	JType* define(TokenType scope, string name, JType value);
 	void assign(Token name, JType value);
 	JType grab(Token name);
 	void dump();

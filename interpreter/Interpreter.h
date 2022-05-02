@@ -32,7 +32,7 @@ private:
 	virtual void visitIf(const If* statement) override;
 	virtual void visitPrint(const Print* statement) override;
 	virtual void visitReturn(const Return* statement) override;
-	virtual void visitLocal(const Local* statement) override;
+	virtual void visitDeclare(const Declare* statement) override;
 	virtual void visitWhile(const While* statement) override;
 	// expressions
 	virtual void visitAssign(const Assign* expression) override;

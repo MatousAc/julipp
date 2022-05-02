@@ -4,13 +4,26 @@ Environment::Environment(Environment* enclosing)
 	: values{},
 	enclosing{ enclosing } {}
 
-void Environment::define(string name, JType value) {
-	values[name] = value;
+JType* Environment::define(TokenType scope, string name, JType value) {
+	if (scope == LOCAL) values[name] = value;
+	else if (scope == GLOBAL) {
+		if (enclosing == nullptr) { // @ global, pass up pointer to var
+			if (!value.isnil() || values.find(name) == values.end()) {
+				values[name] = value; // define if not already defined
+			}
+		} else { // define in outer scope. get pointer to that var
+			values[name] = *(enclosing->define(scope, name, value));
+		}
+	}
+	return &(values[name]);
 }
 
 void Environment::assign(Token name, JType value) {
 	if (values.find(name.lexeme) != values.end()) {
-		values[name.lexeme] = value;
+		// below we assign the value inside the JType
+		// so that any references to this in outer scopes
+		// will also be updated
+		values[name.lexeme].value = value.value;
 		return;
 	}
 

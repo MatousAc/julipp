@@ -15,7 +15,8 @@ JType JFunction::call(Interpreter* interpreter,
     Environment* environment = new Environment(interpreter->globals);
     interpreter->globals->dump();
     for (int i = 0; i < declaration->params.size(); i++) {
-        environment->define(declaration->params[i].lexeme,
+        environment->define(LOCAL,
+            declaration->params[i].lexeme,
             arguments[i]);
     }
     environment->dump();

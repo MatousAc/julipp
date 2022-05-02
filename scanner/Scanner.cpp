@@ -22,6 +22,7 @@ Scanner::Scanner(string source)
 	keywords["end"] = END;
 	keywords["exit"] = EXIT;
 	keywords["false"] = FALSE;
+	keywords["global"] = GLOBAL;
 	keywords["if"] = IF;
 	keywords["local"] = LOCAL;
 	keywords["nil"] = NIL;

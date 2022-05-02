@@ -22,7 +22,8 @@ vector<Stmt*> Parser::parse() {
 Stmt* Parser::declaration() {
 	try {
 		if (match({ FUN })) return function("function");
-		if (match({ LOCAL })) return varDeclaration();
+		if (check(LOCAL) || check(GLOBAL))
+			return varDeclaration();
 		return statement();
 	}
 	catch (ParseExcept error) {
@@ -33,13 +34,14 @@ Stmt* Parser::declaration() {
 }
 
 Stmt* Parser::varDeclaration() {
+	TokenType scope = advance().type;
 	Token name = consume(IDENTIFIER, "Expect variable name.");
 
 	Expr* initilizer = NULL;
 	if (match({ EQUAL })) initilizer = expression();
 
 	consume(STATEND, "Expect ';' after variable declaration.");
-	return new Local(name, initilizer);
+	return new Declare(scope, name, initilizer);
 }
 
 Stmt* Parser::statement() {
