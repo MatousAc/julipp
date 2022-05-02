@@ -29,11 +29,12 @@ struct Expr {
 };
 
 struct Assign : Expr {
+    TokenType scope;
     Token name;
     Expr* value;
 
-    Assign(Token name, Expr* value)
-        :name{ name }, value{ value } {}
+    Assign(TokenType scope, Token name, Expr* value)
+        :scope{ scope }, name{ name }, value{ value } {}
 
     void accept(ExprVisitor* visitor) override {
         visitor->visitAssign(this);

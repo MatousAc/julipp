@@ -8,7 +8,7 @@
 Parser::Parser(vector<Token> tokens)
 	: tokens{ tokens },
 	current{ 0 },
-	loopDepth{ 0 } {};
+	nest{} {};
 
 // parsing statements
 vector<Stmt*> Parser::parse() {
@@ -40,7 +40,7 @@ Stmt* Parser::varDeclaration() {
 	Expr* initilizer = NULL;
 	if (match({ EQUAL })) initilizer = expression();
 
-	consume(STATEND, "Expect ';' after variable declaration.");
+	consume(STATEND, "Expect ';' or end of line after variable declaration.");
 	return new Declare(scope, name, initilizer);
 }
 
@@ -66,7 +66,7 @@ Stmt* Parser::breakStatement() {
 	if (!inLoop())
 		throw pex(previous(),
 			"'break' must be inside while or for loop");
-	consume(STATEND, "Expect ';' after 'break'.");
+	consume(STATEND, "Expect ';' or end of line after 'break'.");
 	return new Break();
 }
 
@@ -93,7 +93,7 @@ Stmt* Parser::continueStatement() {
 	if (!inLoop())
 		throw pex(previous(),
 			"'continue' must be inside while or for loop");
-	consume(STATEND, "Expect ';' after 'continue'.");
+	consume(STATEND, "Expect ';' or end of line after 'continue'.");
 	return new Continue();
 }
 
@@ -103,7 +103,7 @@ Stmt* Parser::defaultCaseStatement() {
 }
 
 Stmt* Parser::exitStatement() {
-	consume(STATEND, "Expect ';' after 'exit'.");
+	consume(STATEND, "Expect ';' or end of line after 'exit'.");
 	return new Exit();
 }
 
@@ -120,13 +120,14 @@ Stmt* Parser::exitStatement() {
 
 Stmt* Parser::whileStatement() {
 	Expr* condition = expression();
-	loopDepth++;
+	nest.push_back(WHILE);
 	Stmt* body = block();
-	loopDepth--;
+	nest.pop_back();
 	return new While(condition, body);
 }
 
 Stmt* Parser::ifStatement() {
+	nest.push_back(IF);
 	vector<Expr*> conditions{};// = expression();
 	vector<Stmt*> thenBranches{};// = ifBlock();
 	do  {
@@ -139,22 +140,24 @@ Stmt* Parser::ifStatement() {
 	} else { // only consume if we don't get regular block
 		consume(END, "Incomplete 'if' Expect 'end'");
 	}
+	nest.pop_back();
 	return new If(conditions, thenBranches, elseBranch);
 }
 
 Stmt* Parser::printStatement() {
 	Expr* value = expression();
-	consume(STATEND, "Expect ';' after value.");
+	consume(STATEND, "Expect ';' or end of line after value.");
 	return new Print(value);
 }
 
 Stmt* Parser::expressionStatement() {
 	Expr* expr = expression();
-	consume(STATEND, "Expect ';' after expression.");
+	consume(STATEND, "Expect ';' or end of line after expression.");
 	return new Expression(expr);
 }
 
 Stmt* Parser::function(string kind) {
+	nest.push_back(FUN);
 	Token name = consume(IDENTIFIER, "Expect " + kind + " name.");
 	consume(LEFT_PAREN, "Expect '(' after " + kind + " name.");
 	vector<Token> params{};
@@ -171,6 +174,7 @@ Stmt* Parser::function(string kind) {
 	consume(RIGHT_PAREN, "Expect ')' after parameters.");
 	consume(BEGIN, "Expect '{' before " + kind + " body.");
 	vector<Stmt*> body = block()->statements;
+	nest.pop_back();
 	return new Function(name, params, body);
 }
 
@@ -205,7 +209,7 @@ Stmt* Parser::returnStatement() {
 		value = expression();
 	}
 
-	consume(STATEND, "Expect ';' after return value.");
+	consume(STATEND, "Expect ';' or end of line after return value.");
 
 	return new Return(keyword, value);
 }
@@ -218,12 +222,12 @@ Expr* Parser::assignment() {
 	if (match({ EQUAL })) {
 		Token equals = previous();
 		Expr* value = assignment();
-
+		// if we've already got it
 		if (instanceof<Variable>(expression)) {
 			Token name = ((Variable*)expression)->name;
-			return new Assign(name, value);
+			return new Assign(
+				getAssignmentScope(), name, value);
 		}
-
 		pex(equals, "Invalid assignment target.");
 	}
 	return expression;
@@ -436,6 +440,27 @@ Token Parser::peek() { return tokens[current]; }
 
 Token Parser::previous() { return tokens[current - 1]; }
 
+int Parser::loopDepth() {
+	int res = 0;
+	for (TokenType type : nest)
+		if (type == WHILE) res++;
+	return res;
+}
+
+bool Parser::inLoop() { return loopDepth() > 0; }
+
+TokenType Parser::getAssignmentScope() {
+	if (nest.size() == 0) return GLOBAL;
+	TokenType end = *(nest.end() - 1);
+	switch (end) {
+	case BEGIN: return BEGIN;
+	case WHILE: return LOCAL;
+	case FUN: return LOCAL;
+	default: return LOCAL;
+	};
+
+}
+
 // errors
 ParseExcept Parser::pex(Token token, string message) {
 	err->error(token, message);
@@ -469,5 +494,3 @@ void Parser::synchronize() {
 
 ParseExcept::ParseExcept() : runtime_error{ "" } {}
 ParseExcept::ParseExcept(const string& message) : runtime_error{ message.c_str() } {}
-
-bool Parser::inLoop() { return loopDepth > 0; }

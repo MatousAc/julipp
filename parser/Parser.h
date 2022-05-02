@@ -11,7 +11,7 @@ struct ParseExcept;
 class Parser {
 	vector<Token> tokens;
 	int current;
-	int loopDepth;
+	vector<TokenType> nest;
 
 public: // constructor
 	Parser(vector<Token> tokens);
@@ -62,12 +62,14 @@ private:
 	bool isAtEnd();
 	Token peek();
 	Token previous();
+	int loopDepth();
+	bool inLoop();
+	TokenType getAssignmentScope();
 
 	// errors
 	ParseExcept pex(Token token, string message);
 
 	void synchronize();
-	bool inLoop();
 };
 
 struct ParseExcept : public runtime_error {

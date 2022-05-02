@@ -135,7 +135,7 @@ void Interpreter::visitWhile(const While* statement) {
 void Interpreter::visitAssign(const Assign* expression) {
 	evaluate(expression->value);
 	JType value = getResult();
-	environment->assign(expression->name, value);
+	environment->assign(expression->scope, expression->name, value);
 	result = value;
 }
 void Interpreter::visitBinary(const Binary* expression) {

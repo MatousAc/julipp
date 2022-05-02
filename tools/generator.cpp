@@ -14,7 +14,7 @@ void generator(vector<string> args) {
 	cout << "generating in: " << outputDir << std::endl;
 	writeSyntax(outputDir, "Expr",
 		{ "../scanner/Token.h" }, {
-		"Assign : Token name, Expr* value",
+		"Assign : TokenType scope, Token name, Expr* value",
 			"Binary : Expr* left, Token op, Expr* right",
 			"Call : Expr* callee, Token paren, vector<Expr*> arguments",
 			"Grouping : Expr* expression",

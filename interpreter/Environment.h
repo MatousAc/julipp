@@ -12,7 +12,7 @@ struct Environment {
 	Environment* enclosing;
 	Environment(Environment* enclosing = nullptr);
 	JType* define(TokenType scope, string name, JType value);
-	void assign(Token name, JType value);
+	void assign(TokenType scope, Token name, JType value);
 	JType grab(Token name);
 	void dump();
 	bool isGlobal();

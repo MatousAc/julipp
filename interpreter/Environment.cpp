@@ -18,7 +18,7 @@ JType* Environment::define(TokenType scope, string name, JType value) {
 	return &(values[name]);
 }
 
-void Environment::assign(Token name, JType value) {
+void Environment::assign(TokenType scope, Token name, JType value) {
 	if (values.find(name.lexeme) != values.end()) {
 		// below we assign the value inside the JType
 		// so that any references to this in outer scopes
@@ -28,12 +28,11 @@ void Environment::assign(Token name, JType value) {
 	}
 
 	if (enclosing != nullptr) {
-		enclosing->assign(name, value);
+		enclosing->assign(scope, name, value);
 		return;
 	}
 
-	throw new RunError(name,
-		"Undefined variable '" + name.lexeme + "'.");
+	define(scope, name.lexeme, value);
 }
 
 JType Environment::grab(Token name) {

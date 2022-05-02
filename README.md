@@ -44,20 +44,21 @@ I feel pretty confident in being able to implement things through chapter 9. Wha
   [x] I will support julia's if-else statements
   [x] I also plan to support the intermediate *elseif* statement(s)
   [x] conditions should not require parentheses around them
-[ ] loops
+[x] loops
   [x] I plan to support while loops
-  [ ] while loops should have correct local soft scoping
-  [ ] you should be able to use break;
-  [ ] you should be able to use continue;
+  [x] while loops should have correct local soft scoping
+  [x] you should be able to use break;
+  [x] you should be able to use continue;
 [x] I will support assignment
 [ ] *scoping*
     * scoping in Julia is hellishly complicated and varies subtly based on which version of Julia you are using. I am implementing part of it based on what is explained throughout the various versions in the [docs](https://docs.julialang.org/en/v1/manual/variables-and-scoping/). Here I define what the rules of scoping are for my version of Julia (where I exclude hard scoping as detailed in my original project proposal).
     * some form of local scopes tend to be present in loops, user-defined functions(hard scope in this case, so not being implemented), try-catch blocks (also not implemented), and structs (also not implemented)
-  [ ] begin and if by default do not make new scopes. variables declared in them are global by default. they can be forced to have a local variable using the *local* keyword
+  [ ] begin and if by default do not make new scopes. variables declared in them redefine those in outer scopes by default. they can be forced to have a local variable using the *local* keyword, or can address globals if using *global*
   [ ] loops by default create local variables, in this context, the local keyword does nothing useful. global variables can be declared using the *global* keyword
   [ ] I provide functionality of a global scope. a variable declared outside any construct that introduces a local scope (@ top level) will be global (duh).
   [ ] implicit variable declaration is supported. this is where the default block-type behaviours set in.
-    * in light of inconsistent scoping across Julia versions and even the repl and file execution, I have decided to expand/simplify the shadowing rules in my implementation. Local variables can shadow variables in outer scopes (such as the global scope).
+    * in light of inconsistent scoping across Julia versions and even the repl and file execution, I have decided to expand/simplify the shadowing rules in my implementation. Local variables shadow variables in outer scopes (such as the global scope). global variables in inner scopes rewrite locals in outer scopes.
+
 
 #### Strings
 [x] string escape characters
