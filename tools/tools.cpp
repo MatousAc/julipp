@@ -85,8 +85,8 @@ bool isExpr(vector<Token> tokens) {
 	auto last = end - 2;
 	if (begin == end) return false;
 	else if (match((*begin).type, {
-		BREAK, CONTINUE, EXIT, LOCAL,
-		FOR, WHILE, BEGIN, EoF, IF, FUN
+		BREAK, CONTINUE, LOCAL, GLOBAL,
+		WHILE, BEGIN, EoF, IF, FUN
 		})) {
 		return false;
 	} else if ((*last).type != STATEND) {

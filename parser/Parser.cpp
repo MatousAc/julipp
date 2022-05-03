@@ -53,7 +53,6 @@ Stmt* Parser::statement() {
 	if (match({ CONTINUE })) return continueStatement();
 	if (match({ DEFAULT })) throw pex(previous(),
 		"'default' must be inside switch statement");
-	if (match({ EXIT })) return exitStatement();
 	//if (match({ SWITCH })) return switchStatement();
 	if (match({ WHILE })) return whileStatement();
 	if (match({ IF })) return ifStatement();
@@ -99,11 +98,6 @@ Stmt* Parser::continueStatement() {
 Stmt* Parser::defaultCaseStatement() {
 	consume(COLON, "Expect ':' after default.");
 	return statement();
-}
-
-Stmt* Parser::exitStatement() {
-	consume(STATEND, "Expect ';' or end of line after 'exit'.");
-	return new Exit();
 }
 
 //Stmt* Parser::switchStatement() {
@@ -359,7 +353,7 @@ Expr* Parser::primary() {
 	// we take false, true, or nil and create a Literal that holds a LoxType
 	if (match({FALSE})) return new Literal(JType{ false });
 	if (match({TRUE})) return new Literal(JType{ true });
-	if (match({NIL})) return new Literal(JType{});
+	if (match({NOTHING})) return new Literal(JType{});
 
 	// package a LitVal as a LoxType and store it in Literal
 	if (match(vector<TokenType>{NUMBER, STRING})) {
@@ -451,7 +445,6 @@ TokenType Parser::getAssignmentScope() {
 	case FUN: return LOCAL;
 	default: return LOCAL;
 	};
-
 }
 
 // errors

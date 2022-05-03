@@ -30,7 +30,6 @@ void generator(vector<string> args) {
 			"Break",
 			"Continue",
 			"Declare : TokenType scope, Token name, Expr* initializer",
-			"Exit",
 			"Expression	: Expr* expression",
 			"Function : Token name, vector<Token> params, vector<Stmt*> body",
 			"If : vector<Expr*> conditions, vector<Stmt*> thenBranches, Stmt* elseBranch",

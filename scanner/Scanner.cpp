@@ -20,16 +20,14 @@ Scanner::Scanner(string source)
 	keywords["else"] = ELSE;
 	keywords["elseif"] = ELSEIF;
 	keywords["end"] = END;
-	keywords["exit"] = EXIT;
 	keywords["false"] = FALSE;
 	keywords["global"] = GLOBAL;
 	keywords["if"] = IF;
 	keywords["local"] = LOCAL;
-	keywords["nil"] = NIL;
+	keywords["nothing"] = NOTHING;
 	keywords["return"] = RETURN;
 	keywords["super"] = SUPER;
 	keywords["switch"] = SWITCH;
-	keywords["this"] = THIS;
 	keywords["true"] = TRUE;
 	keywords["while"] = WHILE;
 	// unsupported

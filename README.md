@@ -23,12 +23,15 @@ I feel pretty confident in being able to implement things through chapter 9. Wha
         * y(3) # cannot call this (in both implementations)
         * y3 # well, this is just a variable, guys
         * 3 y # no spaces!
-- [x] null value: there is a nil value in julia called "nothing". the other null (uninitialized variables) is treated as no value at all (errors)
+- [x] null value: there is a nil value in julia called "nothing". the other null (uninitialized variables) is treated as no value at all (errors) and is represented in JType as "monostate". when you declare a variable, it is not initialized to any value (outwardly) and cannot be accessed without first setting it to a value. *nothing* is different as it is basically a special type but is treated as a regular valid value such as a bool or something
+  - [ ] when compared (==) to any value of another type (number, boolean, string), it returns false
+  - [ ] when compared (><) to any value of another type (number, boolean, string), it returns throws a RunTime error
+  - [ ] when compared (==) to any value that is also nothing, the result is true
 - [x] identifiers
   - [x] *identifiers* can begin with "a-z", "A-Z", or ascii symbols such as "_" if that character is not otherwise used by the language (we're not using "#^-+=!@~" and such)
   - [x] I won't allow access to purely underscore variables
 - [ ] keywords: below is a list of julia's keywords. to keep in the spirit of the language, all of the keywords will be scanned, but while parsing, any keyword that is not supported will be reported as an error.
-  - [ ] **supported**: begin break continue do else elseif end false global if local true while
+  - [x] **supported**: begin break continue do else elseif end false global if local nothing true while
   - [x] **not supported**: baremodule catch export finally for try using import let macro module quote struct
 - [x] function calling
   - [x] I plan to support passing parameters and calling on identifiers that are pre-defined by the language
@@ -65,7 +68,7 @@ I feel pretty confident in being able to implement things through chapter 9. Wha
 - [x] string length built-in function
 - [x] string concatenation done with *
     * "what's" * " up?" => "what's up?"
-- [x] adding string - double multiplication and addition
+- [x] adding string X double multiplication and addition
     * string * x => the string x times (after floor(x))
     * "Ac " * 3 => "Ac Ac Ac "
     * "hi" + 2 => "hi2"
@@ -81,7 +84,8 @@ I feel pretty confident in being able to implement things through chapter 9. Wha
 - [x] println(...) # println gives a new line after it prints, takes up to 255 arguments
 - [x] readline() # this is meant to be CLI input. it takes a line of user input and returns it as a string (including the newline)  
 - [x] parsenum(string) # returns a number if the string can be parsed. otherwise throws error
-- [x] Nothing() # returns nothing
+- [x] Nothing() # returns a value of *nothing* (special type).
+- [x] exit() # exits program
 
 \# we aren't focusing on built-in math functions, but I'd like to implement these:
 - [x] round(number) # rounds the number to an integer (but is still of type double internally)

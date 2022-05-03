@@ -32,6 +32,7 @@ Interpreter::Interpreter() :
 	globals->define(GLOBAL, "readline", new ReadLine{});
 	globals->define(GLOBAL, "parsenum", new ParseNum{});
 	globals->define(GLOBAL, "Nothing", new Nothing{});
+	globals->define(GLOBAL, "exit", new Exit{});
 };
 
 void Interpreter::interpret(vector<Stmt*> statements) {
@@ -88,9 +89,6 @@ void Interpreter::visitBreak(const Break* statement) {
 }
 void Interpreter::visitContinue(const Continue* statement) {
 	throw ContinueExcept();
-}
-void Interpreter::visitExit(const Exit* statement) {
-	exit(0); // we just quit the interpreter here
 }
 void Interpreter::visitFunction(const Function* statement) {
 	JFunction* function{ new JFunction{ 

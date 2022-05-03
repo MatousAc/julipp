@@ -26,7 +26,6 @@ private:
 	virtual void visitBlock(const Block* statement) override;
 	virtual void visitBreak(const Break* statement) override;
 	virtual void visitContinue(const Continue* statement) override;
-	virtual void visitExit(const Exit* statement) override;
 	virtual void visitExpression(const Expression* statement) override;
 	virtual void visitFunction(const Function* statement) override;
 	virtual void visitIf(const If* statement) override;

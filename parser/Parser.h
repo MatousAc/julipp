@@ -22,13 +22,11 @@ private:
 	Stmt* statement();
 	Stmt* breakStatement();
 	Stmt* continueStatement();
-	Stmt* caseStatement(Expr* switchOn);
+	//Stmt* caseStatement(Expr* switchOn);
 	Stmt* defaultCaseStatement();
-	Stmt* exitStatement();
-	Stmt* switchStatement();
+	//Stmt* switchStatement();
 	Stmt* whileStatement();
 	Stmt* ifStatement();
-	Stmt* printStatement();
 	Stmt* expressionStatement();
 	Stmt* function(string kind);
 	Stmt* returnStatement();
