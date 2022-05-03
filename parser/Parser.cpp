@@ -95,10 +95,10 @@ Stmt* Parser::continueStatement() {
 	return new Continue();
 }
 
-Stmt* Parser::defaultCaseStatement() {
-	consume(COLON, "Expect ':' after default.");
-	return statement();
-}
+//Stmt* Parser::defaultCaseStatement() {
+//	consume(COLON, "Expect ':' after default.");
+//	return statement();
+//}
 
 //Stmt* Parser::switchStatement() {
 //	Stmt* body = nullptr;
@@ -206,16 +206,18 @@ Expr* Parser::expression() { return assignment(); }
 Expr* Parser::assignment() {
 	Expr* expression = ternary();
 
-	if (match({ EQUAL })) {
-		Token equals = previous();
+	if (match({ EQUAL, PLUS_EQUAL, MINUS_EQUAL, 
+		MODULUS_EQUAL, CARET_EQUAL, STAR_EQUAL,
+		BSLASH_EQUAL, FSLASH_EQUAL })) {
+		Token op = previous();
 		Expr* value = assignment();
 		// if we've already got it
 		if (instanceof<Variable>(expression)) {
 			Token name = ((Variable*)expression)->name;
-			return new Assign(
+			return new Assign(op,
 				getAssignmentScope(), name, value);
 		}
-		pex(equals, "Invalid assignment target.");
+		pex(op, "Invalid assignment target.");
 	}
 	return expression;
 }

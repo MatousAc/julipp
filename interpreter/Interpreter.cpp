@@ -143,6 +143,7 @@ void Interpreter::visitWhile(const While* statement) {
 void Interpreter::visitAssign(const Assign* expression) {
 	evaluate(expression->value);
 	JType value = getResult();
+	value = getUpdatingOpVal(expression->name, expression->op, value);
 	environment->assign(expression->scope, expression->name, value);
 	result = value;
 }
@@ -254,6 +255,20 @@ bool Interpreter::takesVariableArgs(JCallable* function) {
 	int pos = name.find("(");
 	string args = name.substr(pos + 1, name.length() - 2);
 	return strcmp(args.c_str(), "...");
+}
+JType Interpreter::getUpdatingOpVal(Token name, Token op, JType right) {
+	JType left = environment->grab(name);
+	switch (op.type) {
+	case EQUAL:			return right; break;
+	case PLUS_EQUAL:	return left + right; break;
+	case MINUS_EQUAL:	return left - right; break;
+	case MODULUS_EQUAL:	return left % right; break;
+	case STAR_EQUAL:	return left * right; break;
+	case FSLASH_EQUAL:	return left / right; break;
+	case BSLASH_EQUAL:	return right / left; break;
+	case CARET_EQUAL:	return left ^ right; break;
+	default:			break;
+	}
 }
 
 // exceptions

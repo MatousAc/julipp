@@ -46,6 +46,7 @@ private:
 	// helpers
 	bool isUnderscores(string s);
 	bool takesVariableArgs(JCallable* function);
+	JType getUpdatingOpVal(Token name, Token op, JType right);
 };
 
 struct BreakExcept : public runtime_error {

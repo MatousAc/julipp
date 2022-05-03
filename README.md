@@ -35,7 +35,7 @@ I feel pretty confident in being able to implement things through chapter 9. Wha
   - [x] *identifiers* can begin with "a-z", "A-Z", or ascii symbols such as "_" if that character is not otherwise used by the language (we're not using "#^-+=!@~" and such)
   - [x] I won't allow access to purely underscore variables
   - [x] you cannot simply name an undefined identifier. that is not handled in my implementation. in other words, an identifier must be defined before it is a valid statement by itself.
-- [ ] keywords: below is a list of julia's keywords. to keep in the spirit of the language, all of the keywords will be scanned, but while parsing, any keyword that is not supported will be reported as an error.
+- [x] keywords: below is a list of julia's keywords. to keep in the spirit of the language, all of the keywords will be scanned, but while parsing, any keyword that is not supported will be reported as an error.
   - [x] **supported**: begin break continue do else elseif end false global if local nothing true while
   - [x] **not supported**: baremodule catch export finally for try using import let macro module quote struct
 - [x] function calling
@@ -88,7 +88,7 @@ I feel pretty confident in being able to implement things through chapter 9. Wha
 - [x] print(...) # prints it's input as a string to the console, takes up to 255 arguments
 - [x] println(...) # println gives a new line after it prints, takes up to 255 arguments
 - [x] readline() # this is meant to be CLI input. it takes a line of user input and returns it as a string (including the newline)  
-- [x] parsenum(string) # returns a number if the string can be parsed. otherwise throws error
+- [x] parsenum(string) # returns a number if the string can be parsed. otherwise throws error. can be used in conjunction w/ readline to receive numerical input
 - [x] Nothing() # returns a value of *nothing* (special type).
 - [x] exit() # exits program
 

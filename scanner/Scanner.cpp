@@ -65,24 +65,25 @@ void Scanner::scanToken() {
 	case ';': addToken(STATEND); break;
 	case '?': addToken(QUEST); break;
 	case ':': addToken(COLON); break;
-	case '-': addToken(MINUS); break;
-	case '+': addToken(PLUS); break;
-	case '\\':addToken(BSLASH); break;
-	case '*': addToken(STAR); break;
-	case '^': addToken(CARET); break;
-	case '%': addToken(MODULUS); break;
 	// two-character tokens
+	case '-': addToken(nextChar('=') ? MINUS_EQUAL : MINUS); break;
+	case '+': addToken(nextChar('=') ? PLUS_EQUAL : PLUS); break;
+	case '*': addToken(nextChar('=') ? STAR_EQUAL : STAR); break;
+	case '\\':addToken(nextChar('=') ? BSLASH_EQUAL : BSLASH); break;
+	case '/': addToken(nextChar('=') ? FSLASH_EQUAL : FSLASH); break;
+	case '^': addToken(nextChar('=') ? CARET_EQUAL : CARET); break;
+	case '%': addToken(nextChar('=') ? MODULUS_EQUAL : MODULUS); break;
 	case '!': addToken(nextChar('=') ? BANG_EQUAL : BANG); break;
 	case '=': addToken(nextChar('=') ? EQUAL_EQUAL : EQUAL); break;
 	case '<': addToken(nextChar('=') ? LESS_EQUAL : LESS); break;
 	case '>': addToken(nextChar('=') ? GREATER_EQUAL : GREATER); break;
-	case '/': addToken(FSLASH); break;
+	// comments
 	case '#': while (peek() != '\n' && !isDone()) next(); break;
-	case '|':
+	case '|': // ||
 		if (nextChar('|')) addToken(OR);
 		else err->report(line, "Unsupported operator.", to_string(c));
 		break;
-	case '&':
+	case '&': // &&
 		if (nextChar('&')) addToken(AND);
 		else err->report(line, "Unsupported operator.", to_string(c));
 		break;

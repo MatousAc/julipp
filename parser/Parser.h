@@ -23,7 +23,7 @@ private:
 	Stmt* breakStatement();
 	Stmt* continueStatement();
 	//Stmt* caseStatement(Expr* switchOn);
-	Stmt* defaultCaseStatement();
+	//Stmt* defaultCaseStatement();
 	//Stmt* switchStatement();
 	Stmt* whileStatement();
 	Stmt* ifStatement();
