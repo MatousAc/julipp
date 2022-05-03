@@ -4,6 +4,10 @@ Environment::Environment(Environment* enclosing)
 	: values{},
 	enclosing{ enclosing } {}
 
+bool Environment::has(string name) {
+	return values.find(name) != values.end();
+}
+
 JType* Environment::define(TokenType scope, string name, JType value) {
 	if (scope == LOCAL) values[name] = value;
 	else if (scope == GLOBAL) {

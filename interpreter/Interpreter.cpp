@@ -143,7 +143,9 @@ void Interpreter::visitWhile(const While* statement) {
 void Interpreter::visitAssign(const Assign* expression) {
 	evaluate(expression->value);
 	JType value = getResult();
-	value = getUpdatingOpVal(expression->name, expression->op, value);
+	if (expression->op.type != EQUAL) { // updating operator
+		value = getUpdatingOpVal(expression->name, expression->op, value);
+	}
 	environment->assign(expression->scope, expression->name, value);
 	result = value;
 }
@@ -257,20 +259,23 @@ bool Interpreter::takesVariableArgs(JCallable* function) {
 	return strcmp(args.c_str(), "...");
 }
 JType Interpreter::getUpdatingOpVal(Token name, Token op, JType right) {
-	JType left = environment->grab(name);
+	JType left{};
+	if (environment->has(name.lexeme))
+		left = environment->grab(name);
+	else throw RunError(name, "Variable has not been declared.");
+	if (left.isundefined()) throw RunError(name,
+		"Variable has not been defined.");
 	switch (op.type) {
-	case EQUAL:			return right; break;
-	case PLUS_EQUAL:	return left + right; break;
-	case MINUS_EQUAL:	return left - right; break;
-	case MODULUS_EQUAL:	return left % right; break;
-	case STAR_EQUAL:	return left * right; break;
-	case FSLASH_EQUAL:	return left / right; break;
-	case BSLASH_EQUAL:	return right / left; break;
-	case CARET_EQUAL:	return left ^ right; break;
-	default:			break;
+	case PLUS_EQUAL:	return left + right;
+	case MINUS_EQUAL:	return left - right;
+	case MODULUS_EQUAL:	return left % right;
+	case STAR_EQUAL:	return left * right;
+	case FSLASH_EQUAL:	return left / right;
+	case BSLASH_EQUAL:	return right / left;
+	case CARET_EQUAL:	return left ^ right;
+	default:			return left;
 	}
 }
-
 // exceptions
 BreakExcept::BreakExcept() : runtime_error{ "" } {}
 BreakExcept::BreakExcept(const string& message) : runtime_error{ message.c_str() } {}
