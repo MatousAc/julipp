@@ -20,8 +20,7 @@ void AstPrinter::visitGrouping(const Grouping* expression) {
 	parenthesize("group", vector{ expression->expression });
 }
 void AstPrinter::visitLiteral(const Literal* expression) {
-	if (expression->value.isnil()) result += "nil";
-	else result += expression->value.toString();
+	result += expression->value.toString();
 }
 void AstPrinter::visitLogical(const Logical* expression) {
 	parenthesize(

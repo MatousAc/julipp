@@ -23,13 +23,18 @@ I feel pretty confident in being able to implement things through chapter 9. Wha
         * y(3) # cannot call this (in both implementations)
         * y3 # well, this is just a variable, guys
         * 3 y # no spaces!
-- [x] null value: there is a nil value in julia called "nothing". the other null (uninitialized variables) is treated as no value at all (errors) and is represented in JType as "monostate". when you declare a variable, it is not initialized to any value (outwardly) and cannot be accessed without first setting it to a value. *nothing* is different as it is basically a special type but is treated as a regular valid value such as a bool or something
-  - [ ] when compared (==) to any value of another type (number, boolean, string), it returns false
-  - [ ] when compared (><) to any value of another type (number, boolean, string), it returns throws a RunTime error
-  - [ ] when compared (==) to any value that is also nothing, the result is true
+- [x] null value: there is a null value in julia called "nothing". the other null (uninitialized variables) is treated as no value at all (errors) and is represented in JType as "monostate". when you declare a variable, it is not initialized to any value (outwardly) and cannot be accessed without first setting it to a value. *nothing* is different as it is basically a special type but is treated as a regular valid value such as a bool or something
+  - [x] when compared (==) to any value of another type (number, boolean, string), it returns false
+  - [x] when compared (><) to any value of another type (number, boolean, string), it returns throws a RunTime error. when comparing two nothing values, this returns false
+  - [x] when compared (==) to any value that is also nothing, the result is true
+  - [x] when doing binary arithmetic (+-*\\) nothing acts as a sort of zero-value
+  - [x] !nothing is true
+  * no other functionality related to nothing is provided
+  - [x] when binary operators are mistmatched julipp throws a RunTime error
 - [x] identifiers
   - [x] *identifiers* can begin with "a-z", "A-Z", or ascii symbols such as "_" if that character is not otherwise used by the language (we're not using "#^-+=!@~" and such)
   - [x] I won't allow access to purely underscore variables
+  - [x] you cannot simply name an undefined identifier. that is not handled in my implementation. in other words, an identifier must be defined before it is a valid statement by itself.
 - [ ] keywords: below is a list of julia's keywords. to keep in the spirit of the language, all of the keywords will be scanned, but while parsing, any keyword that is not supported will be reported as an error.
   - [x] **supported**: begin break continue do else elseif end false global if local nothing true while
   - [x] **not supported**: baremodule catch export finally for try using import let macro module quote struct

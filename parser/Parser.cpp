@@ -351,9 +351,9 @@ Expr* Parser::call() {
 
 Expr* Parser::primary() {
 	// we take false, true, or nil and create a Literal that holds a LoxType
-	if (match({FALSE})) return new Literal(JType{ false });
-	if (match({TRUE})) return new Literal(JType{ true });
-	if (match({NOTHING})) return new Literal(JType{});
+	if (match({ FALSE })) return new Literal(JType{ false });
+	if (match({ TRUE })) return new Literal(JType{ true });
+	if (match({ NOTHING })) return new Literal(JType{ nothing{} });
 
 	// package a LitVal as a LoxType and store it in Literal
 	if (match(vector<TokenType>{NUMBER, STRING})) {

@@ -8,8 +8,8 @@ JType* Environment::define(TokenType scope, string name, JType value) {
 	if (scope == LOCAL) values[name] = value;
 	else if (scope == GLOBAL) {
 		if (enclosing == nullptr) { // @ global, pass up pointer to var
-			if (!value.isnil() || values.find(name) == values.end()) {
-				values[name] = value; // define if not already defined
+			if (!value.isundefined() || values.find(name) == values.end()) {
+				values[name] = value; // define if not already defined or being redefined
 			}
 		} else { // define in outer scope. get pointer to that var
 			values[name] = *(enclosing->define(scope, name, value));
@@ -44,7 +44,7 @@ JType Environment::grab(Token name) {
 		return enclosing->grab(name);
 
 	throw new RunError(name,
-		"Undefined variable '" + name.lexeme + "'.");
+		"Undeclared variable '" + name.lexeme + "'.");
 }
 
 bool Environment::isGlobal() { 

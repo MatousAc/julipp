@@ -20,7 +20,9 @@ struct JType {
 	JType(double dbl);
 	JType(bool bl);
 	JType(JCallable* callable);
-	bool isnil() const;
+	bool isundefined() const;
+	bool isdefined() const;
+	bool isnothing() const;
 	bool isTruthy() const;
 	bool isInt() const;
 	string type() const;

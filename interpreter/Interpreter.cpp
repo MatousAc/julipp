@@ -239,8 +239,8 @@ void Interpreter::visitVariable(const Variable* expression) {
 		err->handleRunError(RunError{ 
 		"all-underscore identifier used as rvalue" });
 	result = environment->grab(expression->name);
-	if (result.isnil()) throw RunError(expression->name,
-		"Variable has not been initilized.");
+	if (result.isundefined()) throw RunError(expression->name,
+		"Variable has not been defined.");
 }
 
 // helpers

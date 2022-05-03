@@ -18,12 +18,18 @@ JType::JType(JCallable* callable)
 
 
 // czechs if empty (contains NULL)
-bool JType::isnil() const {
+bool JType::isundefined() const {
 	return holds_alternative<monostate>(value);
+}
+bool JType::isdefined() const {
+	return !isundefined();
+}
+bool JType::isnothing() const {
+	return holds_alternative<nothing>(value);
 }
 
 bool JType::isTruthy() const {
-	if (isnil())
+	if (isundefined())
 		return false;
 	else if (holds_alternative<bool>(value))
 		return get<bool>(value);
@@ -41,7 +47,7 @@ bool JType::isInt() const {
 // czechs type
 string JType::type() const {
 	string res = "unknown type";
-	if (isnil())
+	if (isundefined())
 		res = "nil";
 	else if (holds_alternative<string>(value))
 		res = "string";
@@ -54,15 +60,15 @@ string JType::type() const {
 	else if (holds_alternative<nothing>(value))
 		res = "nothing";
 	else if (holds_alternative<monostate>(value))
-		res = "nil";
+		res = "undefined";
 	return res;
 }
 
 string JType::toString() const {
 	string res;
-	if (isnil())
-		res = "nil";
-	else if (holds_alternative<nothing>(value))
+	if (isundefined())
+		res = "undefined";
+	else if (isnothing())
 		res = "nothing";
 	else if (holds_alternative<string>(value))
 		res = get<string>(value);
@@ -91,9 +97,9 @@ string JType::numToLoxStr() const {
 // logical
 // == : equals (different types cannpt be equal)
 bool JType::operator==(const JType& r) {
-	if (isnil() && r.isnil())
+	if (isnothing() && r.isnothing())
 		return true;
-	else if (isnil() || r.isnil())
+	else if (isundefined() || r.isundefined())
 		return false;
 	// double == double
 	else if (holds_alternative<double>(value) &&
@@ -112,7 +118,7 @@ bool JType::operator!=(const JType& r) {
 }
 // > : numerical && textual greater than
 bool JType::operator>(const JType& r) {
-	if (isnil() || r.isnil())
+	if (isnothing() || r.isnothing())
 		return false;
 	// double > double
 	else if (holds_alternative<double>(value) &&
@@ -132,7 +138,7 @@ bool JType::operator>=(const JType& r) {
 }
 // < : num && text less than
 bool JType::operator<(const JType& r) {
-	if (isnil() || r.isnil())
+	if (isnothing() || r.isnothing())
 		return false;
 	// double > double
 	else if (holds_alternative<double>(value) &&
@@ -154,9 +160,9 @@ bool JType::operator<=(const JType& r) {
 // arithmetic
 // + : addition, concatenation
 JType JType::operator+(const JType& r) {
-	if (isnil()) // if this is empty
+	if (isnothing()) // if this is empty
 		return r;
-	else if (r.isnil())
+	else if (r.isnothing())
 		return this;
 	// double + double
 	else if (holds_alternative<double>(value) &&
@@ -180,9 +186,9 @@ JType JType::operator+(const JType& r) {
 }
 // - : subtraction
 JType JType::operator-(const JType& r) {
-	if (isnil()) // if this is empty
+	if (isnothing()) // if this is empty
 		return (-JType{ r });
-	else if (r.isnil())
+	else if (r.isnothing())
 		return this;
 	// double - double
 	else if (holds_alternative<double>(value) &&
@@ -209,8 +215,8 @@ JType JType::operator%(const JType& r) {
 }
 // * : multiplication and string duplication
 JType JType::operator*(const JType& r) {
-	if (isnil() || r.isnil()) // x * 0 = 0
-		return JType{};
+	if (isnothing() || r.isnothing()) // x * 0 = 0
+		return JType{ nothing {} };
 	// double * double
 	else if (holds_alternative<double>(value) &&
 		holds_alternative<double>(r.value))
@@ -233,10 +239,10 @@ JType JType::operator*(const JType& r) {
 }
 // / : division and line breaks
 JType JType::operator/(const JType& r) {
-	if (isnil()) // if this is empty
-		return JType{};
-	else if (r.isnil())
-		throw RunError("division by nil");
+	if (isnothing()) // if this is empty
+		return JType{ nothing{} };
+	else if (r.isnothing())
+		throw RunError("division by nothing");
 	// double / double
 	else if (holds_alternative<double>(value) &&
 		holds_alternative<double>(r.value))
@@ -269,7 +275,7 @@ JType JType::operator-() {
 }
 // ! : works on numbers and bools
 bool JType::operator!() {
-	if (isnil())
+	if (isnothing())
 		return true;
 	else if (holds_alternative<string>(value))
 		return (get<string>(value).empty());
