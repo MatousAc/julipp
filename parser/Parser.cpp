@@ -443,9 +443,10 @@ TokenType Parser::getAssignmentScope() {
 	TokenType end = *(nest.end() - 1);
 	switch (end) {
 	case BEGIN: return BEGIN;
-	case WHILE: return LOCAL;
-	case FUN: return LOCAL;
-	default: return LOCAL;
+	case IF: return BEGIN;
+	case WHILE: return BUBBLE;
+	case FUN: return BUBBLE;
+	default: return BUBBLE;
 	};
 }
 

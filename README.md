@@ -127,7 +127,7 @@ I feel pretty confident in being able to implement things through chapter 9. Wha
 
 #### Stretch Goals
 - [ ] Julia has bitwise logical operators such as &, |, and ~. I'd like to try to implement these.
-- [ ] relevant updating operators (+=, -=, *=, etc.)
+- [x] relevant updating operators (+=, -=, *=, etc.)
 - [ ] *symbols*: I'd at least like to be able to treat the ':' symbol operator as an easy way to make a single-word string in the code. so *println(:Ac)* would output *Ac*. This point is not a promise.
 - [ ] keywords: const function return 
 - [ ] in julia, you can write statements to execute right after the condition of an **if** or **elseif** without any delimiter. I will put this functionality as a stretch goal cause I'm really not sure how to do it.
