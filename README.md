@@ -71,6 +71,7 @@ I feel pretty confident in being able to implement things through chapter 9. Wha
 #### Strings
 - [x] string escape characters
 - [x] string length built-in function
+  length(string) # returns the length of a string
 - [x] string concatenation done with *
     * "what's" * " up?" => "what's up?"
 - [x] adding string X double multiplication and addition

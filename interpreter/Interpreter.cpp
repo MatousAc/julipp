@@ -21,7 +21,7 @@ Interpreter::Interpreter() :
 	environment{ this->globals },
 	curToken{ EoF, "start", NULL, -1 } {
 	// default functions
-	globals->define(GLOBAL, "strlen", new StringLen{});
+	globals->define(GLOBAL, "length", new Length{});
 	globals->define(GLOBAL, "sqrt", new Sqrt{});
 	globals->define(GLOBAL, "abs", new Abs{});
 	globals->define(GLOBAL, "floor", new Floor{});
