@@ -18,8 +18,3 @@ end
 
 println(JulyaxAge)			# 2
 println(JulippsNum)			# Variable not Defined
-
-# GLOBAL 36
-# LOCAL 37
-# BUBBLE 35
-# BEGIN 38

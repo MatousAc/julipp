@@ -65,9 +65,12 @@ void Interpreter::executeBlock(vector<Stmt*> statements,
 		for (auto& statement : statements) {
 			execute(statement);
 		}
+	}	// making sure we un-nest when using
+		// break and continue exeptions
+	catch (runtime_error re) {
+		this->environment = previous;
+		throw re;
 	}
-	catch (RunError) {}
-	this->environment = previous;
 }
 
 // private

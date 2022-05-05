@@ -24,7 +24,6 @@ void Environment::define(TokenType scope, string name, JType value) {
 }
 
 void Environment::assign(TokenType scope, Token name, JType value) {
-	cout << name.lexeme << " " << scope << endl;
 	if (inCurEnv(name.lexeme))
 		values[name.lexeme] = value; // if it's local just update
 	else if (has(name.lexeme)) // update variable in enclosing scope
