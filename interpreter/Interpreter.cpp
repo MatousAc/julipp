@@ -66,11 +66,18 @@ void Interpreter::executeBlock(vector<Stmt*> statements,
 			execute(statement);
 		}
 	}	// making sure we un-nest when using
-		// break and continue exeptions
-	catch (runtime_error re) {
+		// break and continue exeptions 
+	catch (BreakExcept brk) {
+		this->environment = previous;
+		throw brk;
+	} catch (Continue cnt) {
+		this->environment = previous;
+		throw cnt;
+	} catch (RunError re) {
 		this->environment = previous;
 		throw re;
 	}
+	this->environment = previous;
 }
 
 // private
@@ -84,17 +91,19 @@ void Interpreter::evaluate(Expr* expression) {
 
 // visiting statements
 void Interpreter::visitBlock(const Block* statement) {
-	Environment* old = environment;
-	try {
-		executeBlock(statement->statements, new Environment(environment));
-		environment = old;
-	} catch (BreakExcept brk) {
-		environment = old;
-		throw brk;
-	} catch (ContinueExcept cnt) {
-		environment = old;
-		throw cnt;
-	}
+	executeBlock(statement->statements, new Environment(environment));
+
+	//Environment* old = environment;
+	//try {
+	//	executeBlock(statement->statements, new Environment(environment));
+	//	environment = old;
+	//} catch (BreakExcept brk) {
+	//	environment = old;
+	//	throw brk;
+	//} catch (ContinueExcept cnt) {
+	//	environment = old;
+	//	throw cnt;
+	//}
 }
 void Interpreter::visitExpression(const Expression* statement) {
 	evaluate(statement->expression);
