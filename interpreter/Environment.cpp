@@ -20,19 +20,11 @@ void Environment::define(TokenType scope, string name, JType value) {
 		// define if not already defined or being redefined
 		else if (value.isdefined() || inCurEnv(name))
 			values[name] = value;
-		/*if (enclosing == nullptr) { // @ global, pass up pointer to var
-			if (!value.isundefined() || values.find(name) == values.end()) {
-				values[name] = value; // define if not already defined or being redefined
-			}
-		} else { // define in outer scope. get pointer to that var
-			values[name] = *(enclosing->define(scope, name, value));
-		}*/
-	} // if default, make local if not already present
-	/*else if (scope == BUBBLE && !has(name)) values[name] = value;
-	else if (scope == BUBBLE) values[name] = value;*/
+	}
 }
 
 void Environment::assign(TokenType scope, Token name, JType value) {
+	cout << name.lexeme << " " << scope << endl;
 	if (inCurEnv(name.lexeme))
 		values[name.lexeme] = value; // if it's local just update
 	else if (has(name.lexeme)) // update variable in enclosing scope
@@ -47,7 +39,7 @@ void Environment::assign(TokenType scope, Token name, JType value) {
 
 JType Environment::grab(Token name) {
 	// search in current scope
-	if (values.find(name.lexeme) != values.end())
+	if (inCurEnv(name.lexeme))
 		return values[name.lexeme];
 	// search in enclosing scope
 	if (enclosing != nullptr)

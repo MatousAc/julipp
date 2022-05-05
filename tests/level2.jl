@@ -3,7 +3,7 @@
 str = """
 Julipp's got triple-quoted strings
 so that using regular "quotes" is
-somewhat easier."""
+somewhat easier.\n"""
 single = "single quoted"
 if (length(str) > 10)
 	println(str) # prints ^

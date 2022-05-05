@@ -18,7 +18,8 @@ struct CountinueExcept;
 Interpreter::Interpreter() :
 	result{},
 	globals{ new Environment{} },
-	environment{ this->globals },
+	//environment{ this->globals },
+	environment{},
 	curToken{ EoF, "start", NULL, -1 } {
 	// default functions
 	globals->define(GLOBAL, "length", new Length{});
@@ -33,6 +34,7 @@ Interpreter::Interpreter() :
 	globals->define(GLOBAL, "parsenum", new ParseNum{});
 	globals->define(GLOBAL, "Nothing", new Nothing{});
 	globals->define(GLOBAL, "exit", new Exit{});
+	environment = globals;
 };
 
 void Interpreter::interpret(vector<Stmt*> statements) {
@@ -79,7 +81,17 @@ void Interpreter::evaluate(Expr* expression) {
 
 // visiting statements
 void Interpreter::visitBlock(const Block* statement) {
-	executeBlock(statement->statements, new Environment(environment));
+	Environment* old = environment;
+	try {
+		executeBlock(statement->statements, new Environment(environment));
+		environment = old;
+	} catch (BreakExcept brk) {
+		environment = old;
+		throw brk;
+	} catch (ContinueExcept cnt) {
+		environment = old;
+		throw cnt;
+	}
 }
 void Interpreter::visitExpression(const Expression* statement) {
 	evaluate(statement->expression);
