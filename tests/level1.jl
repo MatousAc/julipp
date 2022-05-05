@@ -20,5 +20,7 @@ println(x>2 || exit())	# true
 
 # implied multiplication
 global m = 12; global b = 4
-println(x = 3x + b)			# 13
-println(.5(m)x + b)			# 82.0
+global y
+y = 3x + b
+println(y)							# 13
+println(.5(m)x + b)			# 22.0

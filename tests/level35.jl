@@ -2,7 +2,6 @@
 br = false 							# global def
 while (true)
 	global JulyaxAge = 2	# global def
-	JulippsNum = 7				# local def
 	if (!br)							# global access
 		println("1st pass")	# 1st pass
 		br = true						# global assign
@@ -20,6 +19,7 @@ println(JulyaxAge)			# 2
 
 begin
 	local JulyaxAge = 8
+	JulippsNum = 7				# local def
 	while (JulyaxAge != 0)
 		JulyaxAge -= 1
 		print(".")					# ........
@@ -27,4 +27,4 @@ begin
 	println("\n", JulyaxAge) # 0 
 end
 println(JulyaxAge)			# 2
-println(JulippsNum)			# Variable 'JulippsNum' not Defined
+println(JulippsNum)			# 7
