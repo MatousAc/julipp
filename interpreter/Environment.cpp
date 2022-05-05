@@ -44,7 +44,7 @@ JType Environment::grab(Token name) {
 	if (enclosing != nullptr)
 		return enclosing->grab(name);
 
-	throw new RunError(name,
+	throw RunError(name,
 		"Undeclared variable '" + name.lexeme + "'.");
 }
 
