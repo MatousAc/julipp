@@ -17,4 +17,15 @@ while (true)
 end
 
 println(JulyaxAge)			# 2
-println(JulippsNum)			# Variable not Defined
+
+begin
+	local JulyaxAge = 8
+	while (JulyaxAge != 0)
+		JulyaxAge -= 1
+		print(".")					# ........
+	end
+	println("\n", JulyaxAge) # 0 
+end
+println(JulyaxAge)			# 2
+
+println(JulippsNum)			# Variable 'JulippsNum' not Defined
