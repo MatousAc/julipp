@@ -1,7 +1,7 @@
 # Julipp
 [Capabilities](#capabilities) | [How to Run](#how-to-run) | [Architecture](#architecture) | [Limitations](#limitations)
 ## Capabilities
-Julipp interprets much of the standard Julia language (version ). This includes:
+Julipp interprets much of the standard Julia language (around version 1.8). This includes:
 * literals
 * unary operators
 * binary operators
